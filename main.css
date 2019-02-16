@@ -1,0 +1,12 @@
+body{
+    background-color: aqua;
+}
+#canvas{
+    background-color:black;
+    margin: auto;
+}
+
+#canvas2{
+    text-align: center;
+    margin:auto;
+}
