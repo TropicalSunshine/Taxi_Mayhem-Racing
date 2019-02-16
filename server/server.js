@@ -5,34 +5,61 @@ const headers = {
     /** add other headers as per requirement */
   };
 
+
+//required libaries 
 var net = require('net');
 var http = require('http');
 var fs = require('fs');
 
-var deviceIP;
-var deviceData = 'w';
+var devices = [];
+var deviceID = 0;
+var deviceData = '';
+
+function checkID(IP){
+    for(let d = 0; d<devices.length(); d++){
+        if(devices[d].IP == IP){
+            return false;
+        }
+    }
+    return true;
+}
+
+
 
 //create net server listening for TCP req
-
+//TCP SERVER
 var server = net.createServer();
 
 server.on("connection", function(socket){
-    deviceIP = socket.remoteAddress;
+    reqIP = socket.remoteAddress.substring(7); 
+    if (checkID(reqIP)){
+
+    }
+    else{
+        var device = {  ID:deviceID, 
+            IP:socket.remoteAddress.substring(7),
+            DATA:''
+        };
+    }
+    console.log(device.ID);
+    console.log(device.IP);
+    console.log(device);
     socket.setEncoding('utf8');
     socket.on('data', function(data){
-        deviceData = data;
+        device.DATA = data;
         console.log(data);
     })
+    devices.push(device);
 })
 
 server.listen(9001, function(){
     console.log(server.address());
 })
 
-
-//create http   
+//create http
+//HTTP SERVER   
 fs.readFile('../index.html',controller = (err, html)=>{
-    const server = http.createServer(function(req, resp) {  
+    const webServer = http.createServer(function(req, resp) {  
         if (err){
             resp.writeHeader(404);
             resp.end();
@@ -47,5 +74,5 @@ fs.readFile('../index.html',controller = (err, html)=>{
             resp.end();
         }
     })
-    server.listen(2498);
+    webServer.listen(2498);
 })
