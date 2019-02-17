@@ -32,6 +32,9 @@ var BGV = 8;
 var LoopCycles = 0;
 var regulator = 0;
 
+
+var gamestate = true;
+
 function Bg(){
     loadImage('roads.png', function(bg){
         image(bg,0,BGY1);
@@ -79,23 +82,14 @@ function checkCollision(obj, taxi, orientation){
 
             if(orientation == 'l')
             {
-                let img = loadImage('image/P2WON_1.png');
-                console.log("END GAME")
-                while(true)
-                {
-                    image(img, 0, 0, 900, 900);
-                }
+                gamestate = false;
             }
             else
             {
                 if(orientation == 'r')
                 {
-                    let img = loadImage('image/P1WON_1.png');
-                    console.log("END GAME")
-                    while(true)
-                    {
-                        image(img, 0, 0, 900, 900);
-                    }
+                    console.log(gamestate);
+                    gamestate = false;
                 }
             }
         }
@@ -135,6 +129,12 @@ function draw() {
 
     taxi1.show();
     taxi2.show();
+
+    if (gamestate == false){
+        endgame();
+        robstacles = [];
+        lobstacles = [];
+    }
 }
 
 function displayObjt(obstacles, side)
@@ -215,4 +215,11 @@ function keyPressed(controls){
             taxi2.jump();
         }
     }
+}
+
+function endgame(img){
+    textSize(90);
+    textStyle(BOLD);
+	fill(0, 102, 153);
+	text('Game Over', width/2 - 80, height/2);
 }
