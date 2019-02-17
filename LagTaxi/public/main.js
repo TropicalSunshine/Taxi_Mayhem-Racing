@@ -1,6 +1,4 @@
 
-
-
 //http requests for data 
 var xhttp = new XMLHttpRequest;
 var url = "http://169.234.107.116:2498/data";
@@ -33,7 +31,7 @@ var LoopCycles = 0;
 var regulator = 0;
 
 
-var gamestate = true;
+var gamestate = "_";
 
 function Bg(){
     loadImage('roads.png', function(bg){
@@ -82,14 +80,14 @@ function checkCollision(obj, taxi, orientation){
 
             if(orientation == 'l')
             {
-                gamestate = false;
+                gamestate = 'l';
             }
             else
             {
                 if(orientation == 'r')
                 {
                     console.log(gamestate);
-                    gamestate = false;
+                    gamestate = 'r';
                 }
             }
         }
@@ -128,9 +126,20 @@ function draw() {
     displayObjt(lobstacles,"l");
 
     taxi1.show();
-    taxi2.show();
 
-    if (gamestate == false){
+    fill("red");
+    rect(800, 625, 55, 250);
+    fill("yellow")
+    rect(800, (120-taxi1.HP)/120 * 250 + 625, 55, 250 - (120-taxi1.HP)/120 * 250 )
+
+    taxi2.show();
+    
+    fill("red");
+    rect(950, 625, 55, 250);
+    fill("yellow")
+    rect(950, (120-taxi2.HP)/120 * 250 + 625, 55, 250 - (120-taxi2.HP)/120 * 250 )
+
+    if (gamestate != '_'){
         endgame();
         robstacles = [];
         lobstacles = [];
@@ -218,8 +227,10 @@ function keyPressed(controls){
 }
 
 function endgame(img){
-    textSize(90);
+    textSize(70);
     textStyle(BOLD);
-	fill(0, 102, 153);
-	text('Game Over', width/2 - 80, height/2);
+    fill(53, 24, 242);
+
+    taunts = [" DRIVES BETTER THAN YOU"]
+    text('                    GAME OVER\nPLAYER ' + String( (Number(gamestate == 'r') + 1)%2 + 1 ) + taunts[0], width/2 - 825, height/2-225);
 }

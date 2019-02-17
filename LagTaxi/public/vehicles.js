@@ -8,7 +8,7 @@ function Taxi(side){
     this.pos = 1;
     this.SHIFT = 150;
     this.isJump = false;
-    this.HP = 2;
+    this.HP = 120;
 
     this.height = 74;
     this.width = 144;
@@ -94,6 +94,16 @@ function Taxi(side){
     {
         this.HP -= 1;
 
+        if(this.HP < 80 && this.HP > 60)
+        {
+            this.img = loadImage('second_HP.png');
+        }
+
+        if(this.HP < 40)
+        {
+            this.img = loadImage('third_HP.png');
+        }
+
         if(this.HP == 0)
         {
             return 0;
@@ -118,7 +128,7 @@ function RoadObj(side){
         var lane = [1163,1313,1463];
     }
     
-    var vehicles = ['image/roadobj1.png','image/roadobj2.png'];
+    var vehicles = ['image/roadobj1.png','image/roadobj2.png','image/roadobj3.png'];
     var speeds = [2,3,4,5,6];
     this.y = -150;
     this.x = lane[Math.floor(Math.random() * lane.length)];
