@@ -20,7 +20,7 @@ setInterval(() =>{
     }
     xhttp.open("GET", url, true);
     xhttp.send();
-}, 1000);
+}, 1000/100);
 
 
 //background image
@@ -74,6 +74,11 @@ function Bg(){
 function checkCollision(obj,taxi){
     if((obj.y + 144) >= taxi.y && obj.x == taxi.x){
         console.log("crash");
+
+        if ( !taxi.register_crash() )
+        {
+            console.log("GAME IS OVER");
+        }
     }
 
 }
@@ -139,7 +144,7 @@ function displayObjt(obstacles, side)
 
     delObstacles = [];
 
-    if (frameCount %(75) == 0 || frameCount%( 30 + Math.floor( 1400/objcount ) ) == 0) {
+    if (frameCount %(110) == 0 || frameCount%( 30 + Math.floor( 1400/objcount ) ) == 0) {
         obstacles.push(new RoadObj(side) );
         objcount++;
     }
@@ -150,6 +155,7 @@ function displayObjt(obstacles, side)
 
 function keyPressed(controls){
     console.log(controls.DATA);
+
     if(controls.ID == 0){
         if (controls.DATA == 'l'){
             console.log("move left");
@@ -161,7 +167,13 @@ function keyPressed(controls){
             controls.DATA = '';
             taxi1.right();
         }
+        else if(controls.DATA == 'u'){
+            console.log("jumping");
+            controls.DATA = "";
+            taxi1.jump();
+        }
     }
+    
     if (controls.ID == 1){
         if (controls.DATA == 'l'){
             controls.DATA = '';
@@ -170,6 +182,11 @@ function keyPressed(controls){
         else if(controls.DATA == 'r'){
             controls.DATA = '';
             taxi2.right();
+        }
+        else if(controls.DATA == 'u'){
+            console.log("jumping");
+            controls.DATA = "";
+            taxi2.jump();
         }
     }
 }

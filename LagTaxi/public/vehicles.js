@@ -7,6 +7,11 @@ function Taxi(side){
     this.pos = 1;
     this.SHIFT = 150;
     this.isJump = false;
+    this.HP = 2;
+
+    this.height = 74;
+    this.width = 144;
+    this.multiplier = 1;
 
     if(side == 'l'){
         this.y = height - 200;
@@ -20,7 +25,7 @@ function Taxi(side){
     this.img = loadImage('taxi.png');
 
     this.show = function(){
-        image(this.img, this.x, this.y, 74, 144);
+        image(this.img, this.x, this.y, this.height * this.multiplier, this.width * this.multiplier);
     }
 
     this.left = function(){
@@ -41,7 +46,16 @@ function Taxi(side){
     {
         if(jumptimer > 0)
         {
-            jumptimer -= .01;
+            jumptimer -= .01; //CHANGEABLE----
+
+            if(jumptimer > .5)
+            {
+
+            }
+            if(jumptimer < .5)
+            {
+
+            }
         }
         
         //if just went from aerial to landing
@@ -69,6 +83,19 @@ function Taxi(side){
         {
             this.isJump = true;
             jumptimer = 1;
+        }
+    }
+
+    this.register_crash = function()
+    {
+        this.HP -= 1;
+        if(this.HP == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
         }
     }
 }
@@ -99,7 +126,7 @@ function RoadObj(side){
     this.update = function(){
         if(ObsCount%10 == 0 && ObsCount != 0)
         {
-            ObstacleSpeedBoost += .01;
+            ObstacleSpeedBoost += .03;
         }
         this.y += 5 + ObstacleSpeedBoost;
     }
