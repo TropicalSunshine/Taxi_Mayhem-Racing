@@ -1,0 +1,11 @@
+body{
+    text-align: center;
+    margin-left:auto;
+    padding:auto;
+    background: url("image/twon.png")
+}
+
+.content{
+    margin:auto;
+    background-color:aqua;
+}
