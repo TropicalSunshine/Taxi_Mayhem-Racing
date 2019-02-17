@@ -7,6 +7,7 @@ function Taxi(side){
     this.pos = 1;
     this.SHIFT = 150;
     this.isJump = false;
+
     if(side == 'l'){
         this.y = height - 200;
         this.x = 450 - 37;
@@ -36,7 +37,7 @@ function Taxi(side){
         }
     }
 
-    this.updateJumpStatus()
+    this.updateJumpStatus = function()
     {
         if(jumptimer > 0)
         {
@@ -90,9 +91,9 @@ function RoadObj(){
     }
 
     this.update = function(){
-        if(ObsCount%7 == 0 && ObsCount != 0)
+        if(ObsCount%10 == 0 && ObsCount != 0)
         {
-            ObstacleSpeedBoost += .02;
+            ObstacleSpeedBoost += .01;
         }
         this.y += 5 + ObstacleSpeedBoost;
     }

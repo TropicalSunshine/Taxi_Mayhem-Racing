@@ -76,6 +76,7 @@ function checkCollision(obj,taxi){
 
 var obstacles = [];
 var delObstacles = [];
+var objcount = 0;
 function setup() {
     createCanvas(1800,900);
     taxi1 = new Taxi('l');
@@ -125,8 +126,9 @@ function draw() {
 
     delObstacles = [];
 
-    if (frameCount % 75 == 0) {
+    if (frameCount %(75) == 0 || frameCount%( 30 + Math.floor( 1400/objcount ) ) == 0) {
         obstacles.push(new RoadObj());
+        objcount++;
     }
 
     taxi1.updateJumpStatus();
