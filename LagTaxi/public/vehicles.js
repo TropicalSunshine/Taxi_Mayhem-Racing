@@ -3,6 +3,7 @@ function Taxi(side){
     this.pos = 1;
     this.SHIFT = 150;
     this.isJump = false;
+    this.side = side;
     if(side == 'l'){
         this.y = height - 200;
         this.x = 450 - 37;
@@ -33,8 +34,13 @@ function Taxi(side){
     }
 }
 
-function RoadObj(){
-    var lane = [263,413,563];
+function RoadObj(side){
+    if (side == 'l'){
+        var lane = [263,413,563];
+    }
+    else{
+        var lane = [1163,1313,1463];
+    }
     var vehicles = ['image/roadobj1.png','image/roadobj2.png'];
     var speeds = [2,3,4,5,6];
     this.y = -150;
@@ -48,5 +54,4 @@ function RoadObj(){
     this.update = function(){
         this.y += 5;
     }
-
 }   

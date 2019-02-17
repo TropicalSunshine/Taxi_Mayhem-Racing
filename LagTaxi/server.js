@@ -11,6 +11,7 @@ var http = require('http');
 var fs = require('fs');
 var express = require('express');
 var path = require('path');
+var c = require('crypto');
 
 var devices = [];
 var deviceID = 0;
@@ -46,7 +47,8 @@ server.on("connection", function(socket){
         var device = {  
             ID:deviceID, 
             IP:socket.remoteAddress.substring(7),
-            DATA:''
+            DATA:'',
+            unique: ''
         };
         deviceID += 1;
         devices.push(device);
@@ -54,7 +56,13 @@ server.on("connection", function(socket){
     var device = findID(reqIP);
     socket.setEncoding('utf8');
     socket.on('data', function(data){
+        var uniqueID = c.randomBytes(10).toString('hex');
         device.DATA = data;
+        for(let i = 0; i<devices.length; i++){
+            if(devices[i].ID == device.ID){
+                devices[i].unique = uniqueID;
+            }
+        }
         console.log(device.ID);
         console.log(device.IP);
         console.log(devices);
