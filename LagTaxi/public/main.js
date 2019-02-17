@@ -4,53 +4,23 @@
 //http requests for data 
 var xhttp = new XMLHttpRequest;
 var url = "http://169.234.103.32:2498/data";
+var IDs = [];
 setInterval(() =>{
     xhttp.onreadystatechange = function(){
         if(xhttp.readyState == 4){
-            console.log(xhttp.response);
-            controllerdata = xhttp.response;
+            controllerdata = JSON.parse(xhttp.response);
+            console.log(controllerdata);
+            for(let i = 0; i<controllerdata.length; i++){
+                if(!IDs.includes(controllerdata[i].unique)){
+                    IDs.push(controllerdata[i].unique);
+                    keyPressed(controllerdata[i]);
+                }
+            }
         }
     }
     xhttp.open("GET", url, true);
     xhttp.send();
 }, 1000);
-
-
-
-
-
-
-function Lane(x){
-    this.y = 0;
-    this.x = x;
-
-    this.drop = 5;
-    this.velocity = 0;
-
-    this.show = function () {
-        fill(255);
-        rect(this.x, this.y - 800,20,90)
-        rect(this.x, this.y - 600,20,90)
-        rect(this.x, this.y - 400,20,90)
-        rect(this.x, this.y - 200,20,90)
-        rect(this.x, this.y, 20,90);
-        rect(this.x, this.y + 200,20,90)
-        rect(this.x, this.y + 400,20,90)
-        rect(this.x, this.y + 600,20,90)
-        rect(this.x, this.y + 800,20,90)
-        rect(this.x, this.y + 1000,20,90)
-    }
-
-    this.update = function(){
-        this.velocity += this.drop;
-        this.y += this.drop;
-        if (this.y >= height){
-            this.y = 0;
-        }
-    }
-
-
-}
 
 
 //background image
@@ -88,22 +58,26 @@ function Bg(){
     }
 }
 
-/*
+
 function checkCollision(obj,taxi){
     if((obj.y + 144) >= taxi1.y && obj.x == taxi1.x){
-        console.log("crash");
+        EndGame(taxi);
     }
+}
 
-}*/
 
 
-var obstacles = [];
+
+var lobstacles = [];
+var robstacles = []
+var delObstacles = [];
 
 function setup() {
     createCanvas(1800,900);
     taxi1 = new Taxi('l');
     taxi2 = new Taxi('r');
-    obstacles.push(new RoadObj())
+    robstacles.push(new RoadObj('r'));
+    lobstacles.push(new RoadObj('l'));
     // Create both of your off-screen graphics buffers
 }
 
@@ -112,28 +86,59 @@ function draw() {
     Bg(); 
     taxi1.show();
     taxi2.show();
-    keyPressed();
+    displayObjt(robstacles,"r");
+    displayObjt(lobstacles,"l");
+}
 
+function displayObjt(obstacles,side){
     for(let i = 0; i < obstacles.length; i++){
         obstacles[i].show();
         obstacles[i].update();
+        checkCollision(obstacles[i], taxi1);
+        checkCollision(obstacles[i], taxi2);
+
+        if(obstacles[i].y >= 900){
+            delObstacles.push(i);
+        }
     }
+
+    for( let i = 0; i<delObstacles.length;i++){
+        delete obstacles[delObstacles[i]];
+        obstacles.splice(delObstacles[i],1);
+    }
+
+    delObstacles = [];
 
     if (frameCount % 75 == 0) {
-        obstacles.push(new RoadObj());
+        obstacles.push(new RoadObj(side));
     }
-    //checkCollision();
 }
 
-
-
-function keyPressed(){
-    if (keyCode === 37){
-        taxi1.left();
-        keyCode = 0;
+function keyPressed(controls){
+    console.log(controls.DATA);
+    if(controls.ID == 0){
+        if (controls.DATA == 'l'){
+            console.log("move left");
+            controls.DATA = '';
+            taxi1.left();
+        }
+        else if(controls.DATA == 'r'){
+            console.log("move right");
+            controls.DATA = '';
+            taxi1.right();
+        }
     }
-    else if(keyCode === 39){
-        taxi1.right();
-        keyCode = 0;
+    if (controls.ID == 1){
+        if (controls.DATA == 'l'){
+            controls.DATA = '';
+            taxi2.left();
+        }
+        else if(controls.DATA == 'r'){
+            controls.DATA = '';
+            taxi2.right();
+        }
     }
+}
+
+function EndGame(taxi){
 }
