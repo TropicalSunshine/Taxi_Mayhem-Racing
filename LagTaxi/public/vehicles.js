@@ -128,7 +128,7 @@ function RoadObj(side){
         var lane = [1163,1313,1463];
     }
     
-    var vehicles = ['image/roadobj1.png','image/roadobj2.png','image/roadobj3.png'];
+    var vehicles = ['image/roadobj1.png','image/roadobj2.png','image/roadobj3.png','image/roadobj4.png'];
     var speeds = [2,3,4,5,6];
     this.y = -150;
     this.x = lane[Math.floor(Math.random() * lane.length)];
