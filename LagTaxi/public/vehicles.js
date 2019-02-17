@@ -75,7 +75,7 @@ function Taxi(side){
 var ObstacleSpeedBoost = 0;
 var ObsCount = 0;
 
-function RoadObj(){
+function RoadObj(side){
     ObsCount++;
     if (side == 'l'){
         var lane = [263,413,563];
