@@ -50,11 +50,11 @@ function Taxi(side){
 
             if(jumptimer > .5)
             {
-
+                multiplier += .02;
             }
             if(jumptimer < .5)
             {
-
+                multiplier -= .02;
             }
         }
         
@@ -65,6 +65,8 @@ function Taxi(side){
 
             jumpcooldown = true;
             cooldown_decrement = 1;
+
+            multiplier = 1;
         }
 
         if(jumpcooldown == true)
