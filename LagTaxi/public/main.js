@@ -96,12 +96,7 @@ function draw() {
 
     for( let i = 0; i<delObstacles.length;i++){
         delete obstacles[delObstacles[i] ];
-        
-        console.log("Before splice", obstacles);
-
         obstacles.splice(delObstacles[i],1);
-
-        console.log("After splice", obstacles);
     }
 
     delObstacles = [];
