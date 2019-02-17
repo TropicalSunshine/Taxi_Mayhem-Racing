@@ -28,7 +28,11 @@ setInterval(() =>{
 var BACKHEIGHT = -130;
 var BGY1 = 0;
 var BGY2 = -900;
-var BGV = 0;
+var BGV = 8;
+
+var LoopCycles = 0;
+var regulator = 0;
+
 function Bg(){
     loadImage('roads.png', function(bg){
         image(bg,0,BGY1);
@@ -46,8 +50,8 @@ function Bg(){
         image(bg,900,BGY2);
     });
     
-    BGY1 += 8;
-    BGY2 += 8;
+    BGY1 += BGV;
+    BGY2 += BGV;
 
     if(BGY1 >= height){
         BGY1 = -900;
@@ -55,6 +59,14 @@ function Bg(){
 
     if(BGY2 >= height){
         BGY2 = -900;
+        LoopCycles++;
+    }
+
+    if(LoopCycles%( Math.floor( (regulator**2) ) + 5) == 0 && LoopCycles != 0)
+    {
+        BGV += 7;
+        LoopCycles = 0;
+        regulator++;
     }
 }
 
@@ -71,7 +83,6 @@ function checkCollision(obj,taxi){
 var lobstacles = [];
 var robstacles = []
 var delObstacles = [];
-
 function setup() {
     createCanvas(1800,900);
     taxi1 = new Taxi('l');
@@ -94,24 +105,40 @@ function displayObjt(obstacles,side){
     for(let i = 0; i < obstacles.length; i++){
         obstacles[i].show();
         obstacles[i].update();
-        checkCollision(obstacles[i], taxi1);
-        checkCollision(obstacles[i], taxi2);
+
+        if(taxi1.isJump == false)
+        {
+            checkCollision(obstacles[i], taxi1);
+        }
+
+        if(taxi2.isJump == false)
+        {
+            checkCollision(obstacles[i], taxi2);
+        }
 
         if(obstacles[i].y >= 900){
-            delObstacles.push(i);
+            delObstacles.push( obstacles[i] );
         }
     }
 
-    for( let i = 0; i<delObstacles.length;i++){
-        delete obstacles[delObstacles[i]];
-        obstacles.splice(delObstacles[i],1);
+    var cleaningIndex = 0;
+
+    for( let i = 0; i<delObstacles.length;i++)
+    {
+        cleaningIndex = obstacles.indexOf(delObstacles[i] );
+        delete obstacles[ cleaningIndex ];
+        obstacles.splice(cleaningIndex, 1);
     }
 
     delObstacles = [];
 
-    if (frameCount % 75 == 0) {
-        obstacles.push(new RoadObj(side));
+    if (frameCount %(75) == 0 || frameCount%( 30 + Math.floor( 1400/objcount ) ) == 0) {
+        obstacles.push(new RoadObj());
+        objcount++;
     }
+
+    taxi1.updateJumpStatus();
+    taxi2.updateJumpStatus();
 }
 
 function keyPressed(controls){
@@ -138,6 +165,7 @@ function keyPressed(controls){
             taxi2.right();
         }
     }
+    //CHECK FOR JUMPED HERE, CALL taxi.jump
 }
 
 function EndGame(taxi){
