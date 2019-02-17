@@ -16,43 +16,6 @@ setInterval(() =>{
 }, 1000);
 
 
-
-
-
-
-function Lane(x){
-    this.y = 0;
-    this.x = x;
-
-    this.drop = 5;
-    this.velocity = 0;
-
-    this.show = function () {
-        fill(255);
-        rect(this.x, this.y - 800,20,90)
-        rect(this.x, this.y - 600,20,90)
-        rect(this.x, this.y - 400,20,90)
-        rect(this.x, this.y - 200,20,90)
-        rect(this.x, this.y, 20,90);
-        rect(this.x, this.y + 200,20,90)
-        rect(this.x, this.y + 400,20,90)
-        rect(this.x, this.y + 600,20,90)
-        rect(this.x, this.y + 800,20,90)
-        rect(this.x, this.y + 1000,20,90)
-    }
-
-    this.update = function(){
-        this.velocity += this.drop;
-        this.y += this.drop;
-        if (this.y >= height){
-            this.y = 0;
-        }
-    }
-
-
-}
-
-
 //background image
 //stiched to the connecting one
 var BACKHEIGHT = -130;
@@ -88,17 +51,19 @@ function Bg(){
     }
 }
 
-/*
+
 function checkCollision(obj,taxi){
     if((obj.y + 144) >= taxi1.y && obj.x == taxi1.x){
         console.log("crash");
     }
 
-}*/
+}
+
+
 
 
 var obstacles = [];
-
+var delObstacles = [];
 function setup() {
     createCanvas(1800,900);
     taxi1 = new Taxi('l');
@@ -114,10 +79,32 @@ function draw() {
     taxi2.show();
     keyPressed();
 
+
     for(let i = 0; i < obstacles.length; i++){
+        console.log("Showing index", i);
         obstacles[i].show();
+        console.log("Finished Showing", i);
+
         obstacles[i].update();
+        checkCollision(obstacles[i], taxi1);
+        checkCollision(obstacles[i], taxi2);
+
+        if(obstacles[i].y >= 900){
+            delObstacles.push(i);
+        }
     }
+
+    for( let i = 0; i<delObstacles.length;i++){
+        delete obstacles[delObstacles[i] ];
+        
+        console.log("Before splice", obstacles);
+
+        obstacles.splice(delObstacles[i],1);
+
+        console.log("After splice", obstacles);
+    }
+
+    delObstacles = [];
 
     if (frameCount % 75 == 0) {
         obstacles.push(new RoadObj());
