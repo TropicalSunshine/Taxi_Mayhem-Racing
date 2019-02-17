@@ -21,7 +21,11 @@ setInterval(() =>{
 var BACKHEIGHT = -130;
 var BGY1 = 0;
 var BGY2 = -900;
-var BGV = 0;
+var BGV = 8;
+
+var LoopCycles = 0;
+var regulator = 0;
+
 function Bg(){
     loadImage('roads.png', function(bg){
         image(bg,0,BGY1);
@@ -39,8 +43,8 @@ function Bg(){
         image(bg,900,BGY2);
     });
     
-    BGY1 += 8;
-    BGY2 += 8;
+    BGY1 += BGV;
+    BGY2 += BGV;
 
     if(BGY1 >= height){
         BGY1 = -900;
@@ -48,6 +52,14 @@ function Bg(){
 
     if(BGY2 >= height){
         BGY2 = -900;
+        LoopCycles++;
+    }
+
+    if(LoopCycles%( Math.floor( (regulator**2) ) + 5) == 0 && LoopCycles != 0)
+    {
+        BGV += 7;
+        LoopCycles = 0;
+        regulator++;
     }
 }
 
@@ -86,17 +98,29 @@ function draw() {
         console.log("Finished Showing", i);
 
         obstacles[i].update();
-        checkCollision(obstacles[i], taxi1);
-        checkCollision(obstacles[i], taxi2);
+
+        if(taxi1.isJump == false)
+        {
+            checkCollision(obstacles[i], taxi1);
+        }
+
+        if(taxi2.isJump == false)
+        {
+            checkCollision(obstacles[i], taxi2);
+        }
 
         if(obstacles[i].y >= 900){
-            delObstacles.push(i);
+            delObstacles.push( obstacles[i] );
         }
     }
 
-    for( let i = 0; i<delObstacles.length;i++){
-        delete obstacles[delObstacles[i] ];
-        obstacles.splice(delObstacles[i],1);
+    var cleaningIndex = 0;
+
+    for( let i = 0; i<delObstacles.length;i++)
+    {
+        cleaningIndex = obstacles.indexOf(delObstacles[i] );
+        delete obstacles[ cleaningIndex ];
+        obstacles.splice(cleaningIndex, 1);
     }
 
     delObstacles = [];
@@ -104,7 +128,9 @@ function draw() {
     if (frameCount % 75 == 0) {
         obstacles.push(new RoadObj());
     }
-    //checkCollision();
+
+    taxi1.updateJumpStatus();
+    taxi2.updateJumpStatus();
 }
 
 
@@ -118,4 +144,5 @@ function keyPressed(){
         taxi1.right();
         keyCode = 0;
     }
+    //CHECK FOR JUMPED HERE, CALL taxi.jump
 }

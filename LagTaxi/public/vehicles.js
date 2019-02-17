@@ -1,3 +1,7 @@
+var jumpcooldown = false;
+var jumptimer = 0;
+var cooldown_decrement = 0;
+
 function Taxi(side){
     //players of the game
     this.pos = 1;
@@ -31,9 +35,49 @@ function Taxi(side){
             this.pos += 1;
         }
     }
+
+    this.updateJumpStatus()
+    {
+        if(jumptimer > 0)
+        {
+            jumptimer -= .01;
+        }
+        
+        //if just went from aerial to landing
+        if(jumptimer <= 0 && this.isJump == true)
+        {
+            this.isJump = false;
+
+            jumpcooldown = true;
+            cooldown_decrement = 1;
+        }
+
+        if(jumpcooldown == true)
+        {
+            cooldown_decrement -= .01;
+            if(cooldown_decrement <= 0)
+            {
+                jumpcooldown = false;
+            }
+        }
+    }
+
+    this.jump = function()
+    {
+        if(this.isJump == false && jumpcooldown == false)
+        {
+            this.isJump = true;
+            jumptimer = 1;
+        }
+    }
 }
 
+var ObstacleSpeedBoost = 0;
+var ObsCount = 0;
+
 function RoadObj(){
+    ObsCount++;
+
     var lane = [263,413,563];
     var vehicles = ['image/roadobj1.png','image/roadobj2.png'];
     var speeds = [2,3,4,5,6];
@@ -46,7 +90,11 @@ function RoadObj(){
     }
 
     this.update = function(){
-        this.y += 5;
+        if(ObsCount%7 == 0 && ObsCount != 0)
+        {
+            ObstacleSpeedBoost += .02;
+        }
+        this.y += 5 + ObstacleSpeedBoost;
     }
 
 }   
