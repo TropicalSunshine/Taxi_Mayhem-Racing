@@ -3,13 +3,12 @@
 
 //http requests for data 
 var xhttp = new XMLHttpRequest;
-var url = "http://169.234.103.32:2498/data";
+var url = "http://169.234.107.116:2498/data";
 var IDs = [];
 setInterval(() =>{
     xhttp.onreadystatechange = function(){
         if(xhttp.readyState == 4){
             controllerdata = JSON.parse(xhttp.response);
-            console.log(controllerdata);
             for(let i = 0; i<controllerdata.length; i++){
                 if(!IDs.includes(controllerdata[i].unique)){
                     IDs.push(controllerdata[i].unique);
@@ -70,14 +69,39 @@ function Bg(){
     }
 }
 
-
-function checkCollision(obj,taxi){
+function checkCollision(obj, taxi, orientation){
     if((obj.y + 144) >= taxi.y && obj.x == taxi.x){
         console.log("crash");
 
         if ( !taxi.register_crash() )
         {
-            console.log("GAME IS OVER");
+            console.log("GAME IS OVER, orienation is", orientation);
+
+            if(orientation == 'l')
+            {
+                let img = loadImage('image/P2WON_1.png');
+                console.log("END GAME")
+                while(true)
+                {
+                    image(img, 0, 0, 900, 900);
+                }
+            }
+            else
+            {
+                if(orientation == 'r')
+                {
+                    let img = loadImage('image/P1WON_1.png');
+                    console.log("END GAME")
+                    while(true)
+                    {
+                        image(img, 0, 0, 900, 900);
+                    }
+                }
+            }
+        }
+        else
+        {
+            console.log("GAME IS NOT OVER, STILL HP:", taxi.HP);
         }
     }
 
@@ -105,11 +129,12 @@ function setup() {
 function draw() {
     // Draw on your buffers however you like
     Bg(); 
-    taxi1.show();
-    taxi2.show();
 
     displayObjt(robstacles,"r");
     displayObjt(lobstacles,"l");
+
+    taxi1.show();
+    taxi2.show();
 }
 
 function displayObjt(obstacles, side)
@@ -120,12 +145,12 @@ function displayObjt(obstacles, side)
 
         if(taxi1.isJump == false)
         {
-            checkCollision(obstacles[i], taxi1);
+            checkCollision(obstacles[i], taxi1, 'l');
         }
 
         if(taxi2.isJump == false)
         {
-            checkCollision(obstacles[i], taxi2);
+            checkCollision(obstacles[i], taxi2, 'r');
         }
 
         if(obstacles[i].y >= 900){
@@ -168,7 +193,7 @@ function keyPressed(controls){
             taxi1.right();
         }
         else if(controls.DATA == 'u'){
-            console.log("jumping");
+            console.log("TAXI 2 ABOUT TO JUMP")
             controls.DATA = "";
             taxi1.jump();
         }
@@ -186,6 +211,7 @@ function keyPressed(controls){
         else if(controls.DATA == 'u'){
             console.log("jumping");
             controls.DATA = "";
+            console.log("TAXI 2 ABOUT TO JUMP")
             taxi2.jump();
         }
     }

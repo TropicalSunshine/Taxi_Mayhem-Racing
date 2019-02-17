@@ -1,9 +1,10 @@
-var jumpcooldown = false;
-var jumptimer = 0;
-var cooldown_decrement = 0;
-
 function Taxi(side){
     //players of the game
+
+    this.jumpcooldown = false;
+    this.jumptimer = 0;
+    this.cooldown_decrement = 0;
+
     this.pos = 1;
     this.SHIFT = 150;
     this.isJump = false;
@@ -44,53 +45,55 @@ function Taxi(side){
 
     this.updateJumpStatus = function()
     {
-        if(jumptimer > 0)
+        if(this.jumptimer > 0)
         {
-            jumptimer -= .01; //CHANGEABLE----
+            this.jumptimer -= .01; //CHANGEABLE----
 
-            if(jumptimer > .5)
+            if(this.jumptimer > .5)
             {
-                multiplier += .02;
+                this.multiplier += .02;
             }
-            if(jumptimer < .5)
+            if(this.jumptimer < .5)
             {
-                multiplier -= .02;
+                this.multiplier -= .02;
             }
         }
         
         //if just went from aerial to landing
-        if(jumptimer <= 0 && this.isJump == true)
+        if(this.jumptimer <= 0 && this.isJump == true)
         {
             this.isJump = false;
 
-            jumpcooldown = true;
-            cooldown_decrement = 1;
+            this.jumpcooldown = true;
+            this.cooldown_decrement = 1;
 
-            multiplier = 1;
+            this.multiplier = 1;
         }
 
-        if(jumpcooldown == true)
+        if(this.jumpcooldown == true)
         {
-            cooldown_decrement -= .01;
-            if(cooldown_decrement <= 0)
+            this.cooldown_decrement -= .01;
+            if(this.cooldown_decrement <= 0)
             {
-                jumpcooldown = false;
+                this.jumpcooldown = false;
             }
         }
     }
 
     this.jump = function()
     {
-        if(this.isJump == false && jumpcooldown == false)
+        console.log("Inside Jump")
+        if(this.isJump == false && this.jumpcooldown == false)
         {
             this.isJump = true;
-            jumptimer = 1;
+            this.jumptimer = 1;
         }
     }
 
     this.register_crash = function()
     {
         this.HP -= 1;
+
         if(this.HP == 0)
         {
             return 0;
