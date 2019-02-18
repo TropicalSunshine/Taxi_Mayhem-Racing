@@ -232,5 +232,5 @@ function endgame(img){
     fill(53, 24, 242);
 
     taunts = [" DRIVES BETTER THAN YOU"]
-    text('\t\t\t\t\tGAME OVER\nPLAYER ' + String( (Number(gamestate == 'r') + 1)%2 + 1 ) + taunts[0], width/2 - 825 + 250, height/2-225);
+    text('              GAME OVER\nPLAYER ' + String( (Number(gamestate == 'r') + 1)%2 + 1 ) + taunts[0], width/2 - 825 + 250, height/2-225);
 }
