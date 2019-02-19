@@ -4,17 +4,20 @@ screen to controller came
 
 
 
-------Android--------
+------Android--------\n
 Android written in Android Studios
 made requests to server via TCP
 
------Front-End-------
+-----Front-End-------\n
 HTML + CSS + JS
 Game canvas developed in p5.js 
 
------Back-End--------
+-----Back-End--------\n
 Node.js 
 created ports listen for HTTP and TCP requests
+
+
+
 
 
 
