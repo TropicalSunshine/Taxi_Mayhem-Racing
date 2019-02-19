@@ -27,7 +27,7 @@ screen to controller came
 
 
 <h4>Computer</h4>
-  <p>1. Install node.js from <a href = "https://nodejs.org/en/download/">node downloads/a></p>
+  <p>1. Install node.js from <a href = "https://nodejs.org/en/download/">node downloads</a></p>
   <p>2. clone respository</p>
   <p>3. use <code>cd</code> and <code>cd ..</code> in cmd to navigate to the <code>LagTaxi</code> folder</p>
   <p>4. run the cmd <code>node server.js</code>
