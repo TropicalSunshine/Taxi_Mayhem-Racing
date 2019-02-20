@@ -128,22 +128,33 @@ function RoadObj(side){
         var lane = [1163,1313,1463];
     }
     
-    var vehicles = ['image/roadobj1.png','image/roadobj2.png','image/roadobj3.png','image/roadobj4.png'];
-    var speeds = [2,3,4,5,6];
+    var vehicles = ['image/roadobj1.png','image/roadobj2.png','image/roadobj3.png'];
+    var speeds = [4,5,6];
     this.y = -150;
     this.x = lane[Math.floor(Math.random() * lane.length)];
+    this.l = 74;
+    this.h = 144;
     this.speed = speeds[Math.floor(Math.random() * lane.length)];
     this.img = loadImage(vehicles[Math.floor(Math.random() * vehicles.length)]);
     this.show = function(){
-        image(this.img,this.x,this.y, 74, 144);
+        image(this.img,this.x,this.y, this.l, this.h);
     }
 
     this.update = function(){
-        if(ObsCount%10 == 0 && ObsCount != 0)
+        if(ObsCount%50 == 0 && ObsCount != 0)
         {
             ObstacleSpeedBoost += .03;
         }
-        this.y += 5 + ObstacleSpeedBoost;
+        this.y += this.speed + ObstacleSpeedBoost;
     }
 
 }   
+
+
+function Semi(side){
+    //semi truck class
+    RoadObj.call(this, side)
+    this.img = loadImage('image/roadobj4.png')
+    this.h = 250;
+    this.l = 95;
+}

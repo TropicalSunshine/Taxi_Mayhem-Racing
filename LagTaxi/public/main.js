@@ -72,12 +72,10 @@ function Bg(){
 
 function checkCollision(obj, taxi, orientation){
     if((obj.y + 144) >= taxi.y && obj.x == taxi.x){
-        console.log("crash");
 
         if ( !taxi.register_crash() )
         {
-            console.log("GAME IS OVER, orienation is", orientation);
-
+            
             if(orientation == 'l')
             {
                 gamestate = 'l';
@@ -183,44 +181,47 @@ function displayObjt(obstacles, side)
         objcount++;
     }
 
+    if (frameCount % 200 == 0){
+        obstacles.push(new Semi(side));
+        objcount++;
+    }
+
     taxi1.updateJumpStatus();
     taxi2.updateJumpStatus();
 }
 
 function keyPressed(controls){
-    console.log(controls.DATA);
 
     if(controls.ID == 0){
         if (controls.DATA == 'l'){
-            console.log("move left");
             controls.DATA = '';
             taxi1.left();
         }
         else if(controls.DATA == 'r'){
-            console.log("move right");
+            
             controls.DATA = '';
             taxi1.right();
         }
         else if(controls.DATA == 'u'){
-            console.log("TAXI 2 ABOUT TO JUMP")
             controls.DATA = "";
             taxi1.jump();
         }
     }
     
     if (controls.ID == 1){
+        //move left
         if (controls.DATA == 'l'){
             controls.DATA = '';
             taxi2.left();
         }
+        //move right
         else if(controls.DATA == 'r'){
             controls.DATA = '';
             taxi2.right();
         }
+        //jump
         else if(controls.DATA == 'u'){
-            console.log("jumping");
             controls.DATA = "";
-            console.log("TAXI 2 ABOUT TO JUMP")
             taxi2.jump();
         }
     }

@@ -37,11 +37,11 @@ function findID(IP){
 }
 
 
-//create net server listening for TCP req
-//TCP SERVER
-var server = net.createServer();
+//create net Server listening for TCP req
+//TCP Server
+var socketServer = net.createServer();
 
-server.on("connection", function(socket){
+socketServer.on("connection", function(socket){
     reqIP = socket.remoteAddress.substring(7); 
     if (checkID(reqIP)){
         var device = {  
@@ -63,23 +63,29 @@ server.on("connection", function(socket){
                 devices[i].unique = uniqueID;
             }
         }
-        console.log(device.ID);
-        console.log(device.IP);
         console.log(devices);
     })
 })
 
-server.listen(9001, function(){
-    console.log(server.address());
+socketServer.listen(9001, function(){
+    console.log("TCP server listening on port 9001.....");
 })
 
 //create http
-//HTTP SERVER 
-
+//HTTP Server 
 var app = express();
 app.use(express.static(path.join(__dirname + '/public')));
 app.get("/data", function(req, res){
     res.writeHeader(200, {"Content-Type": "text/plain"});
     res.end(JSON.stringify(devices));
 })
-app.listen(2498);
+
+
+
+//--Google Cloud----
+
+var webserver = app.listen(process.env.PORT || '2498', function(){
+    console.log(`Web Server listening on ${webserver.address().port}`)
+})
+
+//app.listen(2498)
