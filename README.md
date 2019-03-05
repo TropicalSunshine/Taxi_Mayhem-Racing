@@ -1,5 +1,5 @@
 # Taxi_Mayhem-Racing
-link to devpost <a href = "https://devpost.com/software/mayhem-taxi-racing">DevPost</a>
+link to <a href = "https://devpost.com/software/mayhem-taxi-racing">DevPost</a>
 
 
 <div>screen to controller came</div>
