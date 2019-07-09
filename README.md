@@ -25,7 +25,7 @@ link to <a href = "https://devpost.com/software/mayhem-taxi-racing">DevPost</a>
 <h4>Android Phones<h4>
   <p>1. download apk via Android Mobile Phones</p>
   <p>2. allow for unknown sources in settings</p>
-  <p>3. from the Github Android folder install <code>Meyham Taxi Racing.apk</code></p>
+  <p>3. from the Github Android folder install <code>Mayham Taxi Racing.apk</code></p>
   <p>4. open the application</p>
 
 
