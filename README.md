@@ -2,7 +2,7 @@
 link to <a href = "https://devpost.com/software/mayhem-taxi-racing">DevPost</a>
 
 
-<div>screen to controller came</div>
+<div>screen to controller game</div>
 
 
 
