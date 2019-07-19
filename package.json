@@ -1,0 +1,21 @@
+{
+  "name": "taxi_io",
+  "version": "1.0.5",
+  "description": "Taxi racing game using mobile controllers",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node serverr.js",
+    "server" : "nodemon serverr.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "nodemon": "^1.19.1",
+    "socket.io": "^2.2.0"
+  }
+}
