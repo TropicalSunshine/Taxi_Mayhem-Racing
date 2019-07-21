@@ -1,15 +1,15 @@
 const express = require("express");
 const cors =  require("cors");
 const path = require("path");
-
+const bodyParser = require("body-parser");
 const app = express();
 
-const createGameRoute = require('./routes/CreateGame');
+const GameRoute = require('./routes/Game');
 
 //handle cors errors
 app.use(cors());
 
-
+app.use(bodyParser.json());
 
 //client page
 app.use('/', express.static(path.join(__dirname + '/public/Game')));
@@ -19,7 +19,7 @@ app.use("/mobile", express.static(path.join(__dirname + '/public/MobileClient'))
 
 //Game
 
-app.use("/createGame", createGameRoute.createGame);
+app.use("/game", GameRoute.Game);
 
 //if no routes are found
 app.use((req, res, next) => {

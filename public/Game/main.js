@@ -33,6 +33,13 @@ var regulator = 0;
 
 var gamestate = "_";
 
+
+
+function start()
+{
+    gamestate = 'start';
+}
+
 function Bg(){
     loadImage('images/roads.png', function(bg){
         image(bg,0,BGY1);
@@ -120,8 +127,11 @@ function draw() {
     // Draw on your buffers however you like
     Bg(); 
 
-    displayObjt(robstacles,"r");
-    displayObjt(lobstacles,"l");
+    if(gamestate == 'start')
+    {
+        displayObjt(robstacles,"r");
+        displayObjt(lobstacles,"l");
+    }
 
     taxi1.show();
 
