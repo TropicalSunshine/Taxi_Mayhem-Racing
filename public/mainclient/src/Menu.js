@@ -17,7 +17,7 @@ export default class Menu extends Component {
         this.CreateGame = this.CreateGame.bind(this);
         this.JoinGame = this.JoinGame.bind(this);
 
-
+        this.status = null;
         this.gameID = null;
     }
 
@@ -41,7 +41,7 @@ export default class Menu extends Component {
                 
                 //store the ID into the localbrowser client for the game
                 sessionStorage.ID = responseContent.gameID;
-
+                that.gameID = responseContent.gameID;
                 //change the state of the output
                 that.setState({
                     isWaitingRoom: false,
@@ -53,15 +53,16 @@ export default class Menu extends Component {
             .catch(error => console.error(error));
     }
 
-    JoinGame()
+    JoinGame(gameID)
     {
+        var that = this;
         //asks the user for the game code
 
         //parse server to join a game game
         //user is put in that waiting room
-        var url = new URL(`http://localhost:4293//joinGame/client/${123}`);
+        var url = new URL(`http://localhost:4293/game/joinGame/client/${gameID}`);
         fetch(url, {
-            method: 'POST',
+            method: 'GET',
             body: JSON.stringify(),
             headers :
             {
@@ -70,7 +71,19 @@ export default class Menu extends Component {
             statusMessage: `Sending controls for game ${1234}`
         }).then(res => res.json())
             .then(function(responseContent){
-                console.log(responseContent);
+
+                if(responseContent.message == "connected")
+                {
+                    that.setState({
+                        isWaitingRoom: true,
+                        isJoinGame: false,
+                        players: responseContent.players
+                    })
+                }
+                else
+                {
+                    that.status = "incorrect game ID";
+                }
             })
             .catch(error => console.error(error));
     }
@@ -84,7 +97,13 @@ export default class Menu extends Component {
     render() {
 
         var that = this;
-        var waitingRoom = this.state.isWaitingRoom ? <WaitingRoom players = {this.state.players}/> : '';
+
+        var waitingRoom = this.state.isWaitingRoom ? (
+        <div>
+            <h3>please join game through mobile with code {that.gameID}</h3>
+            <WaitingRoom players = {this.state.players}/>
+        </div>
+            ) : '';
 
         //prompts the user to go back to the old screen
         var backButton = this.state.isWaitingRoom || this.state.isJoinGame ? <button onClick = {() => {
@@ -94,21 +113,28 @@ export default class Menu extends Component {
                 players: that.state.players
             })
         }}>Back</button> : '';
-        var startGame = this.state.isWaitingRoom ? <button>Start Game</button> : '';
 
-        var ID = "join-textinput" + Math.random();
+        //game button for when user is in waiting room
+        var startGame = this.state.isWaitingRoom ? <button onClick = {this.startGame}>Start Game</button> : '';
 
+
+        var joinbuttonID = "join-textinput" + Math.random();
         var inputID = this.state.isJoinGame ? (
             <div>
-                <input id = {ID} type = "text" name = "gameID" placeholder = "Enter the Game ID"></input>
-                <button>Join</button>
+                <input id = {joinbuttonID} type = "text" name = "gameID" placeholder = "Enter the Game ID"></input>
+                <button onClick = {() => {
+                    that.gameID = document.getElementById(joinbuttonID).value
+                    that.JoinGame(that.gameID)
+                }}>Join</button>
             </div>
         ) : '';
+
 
         if(that.state.isWaitingRoom || that.state.isJoinGame) 
         {
             return(
                 <div id = "Menu">
+                    {that.status}
                     {waitingRoom}
                     {startGame}
                     {inputID}
@@ -122,7 +148,7 @@ export default class Menu extends Component {
             return (
                 <div id = "Menu">
                     <div>
-                        <button className = "menu-button-item">Create Game</button>
+                        <button className = "menu-button-item" onClick = {this.CreateGame}>Create Game</button>
                         <button className = "menu-button-item" onClick = {() => 
                         {
                             that.setState({
@@ -132,6 +158,7 @@ export default class Menu extends Component {
                             })
                         }}>Join Game</button>
                     </div>
+                    {that.status}
                     {waitingRoom}
                     {startGame}
                     {inputID}

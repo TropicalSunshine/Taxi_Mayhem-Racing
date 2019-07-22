@@ -4,7 +4,7 @@ const path = require("path");
 
 const router = express.Router();
 
-const GAMESESSIONS = [];
+const GAMESESSIONS = {};
 
 
 //url/createGame
@@ -19,26 +19,11 @@ router.get("/createGame", (req, res, next) => {
         sessionID : uniqueID
     })
 
-    GAMESESSIONS.push({
-        sessionID: uniqueID,
+    GAMESESSIONS[uniqid] = {
         players: []
-    })
+    }
 })
 
-
-function findSession(gameID)
-{
-    //
-    for(let i = 0; i < GAMESESSIONS.length; i++)
-    {
-        if(GAMESESSIONS[i].sessionID == gameID)
-        {
-            return i;
-        }
-    }
-
-    return null;
-}
 
 //join a game through client
 //url/joinGame
@@ -46,13 +31,12 @@ router.get("/joinGame/client/:gameID", (req, res, next) => {
     var gameID = req.params.gameID;
 
     console.log(`joining a game through client with game ID: ${gameID}`);
-
-    var sessionIndex = findSession(gameID); 
-    if(sessionIndex == null)
+    
+    if(GAMESESSIONS[gameID] == undefined)
     {
         res.header("Content-type", "application/json");
         res.status(200).json({
-            message: "session does not exist",
+            message: "null",
         })
     }
     else
@@ -61,6 +45,7 @@ router.get("/joinGame/client/:gameID", (req, res, next) => {
         res.header("Content-type", "application/json");
         res.status(200).json({
             message: "connected",
+            players: GAMESESSIONS[gameID].players
         })
     }
     
