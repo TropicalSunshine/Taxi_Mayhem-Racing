@@ -9,6 +9,9 @@ const GAMESESSIONS = [];
 
 //url/createGame
 router.get("/createGame", (req, res, next) => {
+
+    console.log("creating a game");
+
     var uniqueID = uniqid().slice(0, 4);
     res.header("Content-type", "application/json");
     res.status(202).json({
@@ -42,6 +45,8 @@ function findSession(gameID)
 router.get("/joinGame/client/:gameID", (req, res, next) => {
     var gameID = req.params.gameID;
 
+    console.log(`joining a game through client with game ID: ${gameID}`);
+
     var sessionIndex = findSession(gameID); 
     if(sessionIndex == null)
     {
@@ -70,9 +75,12 @@ function Player(ID)
 
 //join a game through mobile
 router.get("joinGame/mobile/:gameID", (req, res, next) => {
+
     var gameID = req.params.gameID;
     var sessionIndex = findSession(gameID);
     
+    console.log(`joining game through mobile with ID: ${gameID}`);
+
     if(sessionIndex == null)
     {
         res.status(200).json({
@@ -82,8 +90,9 @@ router.get("joinGame/mobile/:gameID", (req, res, next) => {
     else
     {
         var player;
-        if(GAMESESSIONS[sessionIndex].player.includes(1)) player = 2, GAMESESSIONS[sessionIndex].player.push(new Player(2));
-        else if(GAMESESSIONS[sessionIndex].player.includes(2)) player = 1, GAMESESSIONS[sessionIndex].player.push(new Player(1));
+        
+        if(GAMESESSIONS[sessionIndex].player.includes(1)) player = 2, GAMESESSIONS[sessionIndex].players[2] = new Player(2);
+        else if(GAMESESSIONS[sessionIndex].player.includes(2)) player = 1, GAMESESSIONS[sessionIndex].players[1] = new Player(1);
 
         res.status(200).json({
             message : "connected",
@@ -95,5 +104,5 @@ router.get("joinGame/mobile/:gameID", (req, res, next) => {
 
 //url/Game/{gameID}
 
-module.exports.createGame = router;
+module.exports.Game = router;
 module.exports.sessions = GAMESESSIONS;

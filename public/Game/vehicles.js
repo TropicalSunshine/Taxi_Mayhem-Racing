@@ -82,7 +82,7 @@ function Taxi(side){
 
     this.jump = function()
     {
-        console.log("Inside Jump")
+        console.log("Inside Jump");
         if(this.isJump == false && this.jumpcooldown == false)
         {
             this.isJump = true;

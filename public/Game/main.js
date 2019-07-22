@@ -1,18 +1,27 @@
 
 //http requests for data 
 var xhttp = new XMLHttpRequest;
-var url = "http://169.234.107.116:2498/data";
+var url = "http://localhost:4293/controlIO/client/123"
 var IDs = [];
 setInterval(() =>{
+    var prevData = {
+        ID : null,
+        DATA: null
+    };
     xhttp.onreadystatechange = function(){
         if(xhttp.readyState == 4){
             controllerdata = JSON.parse(xhttp.response);
-            for(let i = 0; i<controllerdata.length; i++){
-                if(!IDs.includes(controllerdata[i].unique)){
-                    IDs.push(controllerdata[i].unique);
-                    keyPressed(controllerdata[i]);
-                }
+            data = {
+                ID: 0, 
+                DATA: controllerdata.player1
+            };
+            if(data.DATA != prevData.DATA)
+            {
+                console.log(prevData);
+                console.log(controllerdata);
+                keyPressed(data);
             }
+            prevData = data;
         }
     }
     xhttp.open("GET", url, true);
