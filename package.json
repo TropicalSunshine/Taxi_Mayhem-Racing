@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node serverr.js",
-    "server": "nodemon serverr.js"
+    "server": "nodemon serverr.js",
+    "build-react": "cd public && cd mainclient && npm run build"
   },
   "author": "",
   "license": "ISC",

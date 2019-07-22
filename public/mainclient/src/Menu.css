@@ -1,0 +1,30 @@
+.menu-button-item
+{
+}
+
+#Menu
+{
+    margin: auto;
+    padding: auto;
+    height: 100%;
+    display: block;
+    text-align: center;
+}
+
+#WaitingRoom
+{
+    margin: auto;
+    padding: auto;
+    background-color: grey;
+    border-radius: 5px;
+    min-height: 400px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.PLayer-list-item
+{
+    color: white;
+}

@@ -13,11 +13,15 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //client page
-app.use('/', express.static(path.join(__dirname + '/public/Game')));
+app.use('/', express.static(path.join(__dirname + '/public/mainclient/build')));
 
 //mobile page
 //must be named index.html
 app.use("/mobile", express.static(path.join(__dirname + '/public/MobileClient')));
+
+//game page
+app.use("/app",  express.static(path.join(__dirname + '/public/Game')));
+
 
 //Game
 app.use("/game", GameRoute.Game);
