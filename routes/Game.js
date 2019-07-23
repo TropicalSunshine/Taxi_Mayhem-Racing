@@ -16,7 +16,8 @@ router.get("/createGame", (req, res, next) => {
     res.header("Content-type", "application/json");
     res.status(202).json({
         message : "Game Created",
-        sessionID : uniqueID
+        sessionID : uniqueID,
+        players: []
     })
 
     GAMESESSIONS[uniqid] = {

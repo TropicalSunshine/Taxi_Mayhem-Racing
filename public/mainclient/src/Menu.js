@@ -28,7 +28,7 @@ export default class Menu extends Component {
         var that = this;
         var url = new URL("http://localhost:4293/game/createGame");
         fetch(url, {
-            method: 'POST',
+            method: 'GET',
             body: JSON.stringify(),
             headers :
             {
@@ -40,11 +40,11 @@ export default class Menu extends Component {
                 console.log(responseContent);
                 
                 //store the ID into the localbrowser client for the game
-                sessionStorage.ID = responseContent.gameID;
-                that.gameID = responseContent.gameID;
+                sessionStorage.ID = responseContent.sessionID;
+                that.gameID = responseContent.sessionID;
                 //change the state of the output
                 that.setState({
-                    isWaitingRoom: false,
+                    isWaitingRoom: true,
                     isJoinGame: false,
                     players: responseContent.players
                 })
@@ -72,7 +72,7 @@ export default class Menu extends Component {
         }).then(res => res.json())
             .then(function(responseContent){
 
-                if(responseContent.message == "connected")
+                if(responseContent.message === "connected")
                 {
                     that.setState({
                         isWaitingRoom: true,
@@ -90,36 +90,39 @@ export default class Menu extends Component {
 
     startGame()
     {
-        window.open("http://localhost:4293/app");
+        window.open("http://localhost:4293/app", "_self");
     }
 
-
-    render() {
-
+    _renderWaitingRoom()
+    {
         var that = this;
-
-        var waitingRoom = this.state.isWaitingRoom ? (
+        return (
         <div>
-            <h3>please join game through mobile with code {that.gameID}</h3>
-            <WaitingRoom players = {this.state.players}/>
+            <h5>please join game through mobile with code</h5>
+            <h3>{this.gameID}</h3>
+            <WaitingRoom players = {that.state.players}/>
         </div>
-            ) : '';
+        )
+    }
 
-        //prompts the user to go back to the old screen
-        var backButton = this.state.isWaitingRoom || this.state.isJoinGame ? <button onClick = {() => {
-            that.setState({
-                isWaitingRoom: false,
-                isJoinGame: false,
-                players: that.state.players
-            })
-        }}>Back</button> : '';
-
-        //game button for when user is in waiting room
-        var startGame = this.state.isWaitingRoom ? <button onClick = {this.startGame}>Start Game</button> : '';
-
-
+    _renderBackButton()
+    {
+        var that = this;
+        return(
+            <button onClick = {() => {
+                that.setState({
+                    isWaitingRoom: false,
+                    isJoinGame: false,
+                    players: that.state.players
+                })
+            }}>Back</button>
+        )
+    }
+    _renderInputBox()
+    {
+        var that = this;
         var joinbuttonID = "join-textinput" + Math.random();
-        var inputID = this.state.isJoinGame ? (
+        return (
             <div>
                 <input id = {joinbuttonID} type = "text" name = "gameID" placeholder = "Enter the Game ID"></input>
                 <button onClick = {() => {
@@ -127,7 +130,27 @@ export default class Menu extends Component {
                     that.JoinGame(that.gameID)
                 }}>Join</button>
             </div>
-        ) : '';
+        )
+    }
+    render() {
+
+        var that = this;
+
+        var waitingRoom = this.state.isWaitingRoom && that._renderWaitingRoom();
+
+        //prompts the user to go back to the old screen
+        var backButton = (this.state.isWaitingRoom || this.state.isJoinGame) && that._renderBackButton();  
+
+        //game button for when user is in waiting room
+        var startGame = this.state.isWaitingRoom ? <button onClick = {this.startGame}>Start Game</button> : '';
+
+        var joinbuttonID = "join-textinput" + Math.random();
+
+        var inputID = this.state.isJoinGame && that._renderInputBox();
+
+
+
+
 
 
         if(that.state.isWaitingRoom || that.state.isJoinGame) 

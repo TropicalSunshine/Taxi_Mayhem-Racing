@@ -25,6 +25,7 @@ app.use("/app",  express.static(path.join(__dirname + '/public/Game')));
 
 //Game
 app.use("/game", GameRoute.Game);
+
 app.use("/controlIO", ControllerIORoute.controllerIO);
 
 //if no routes are found
