@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import "./Menu.css";
-
+import { HOSTURL } from './hostURL';
 
 
 
@@ -26,7 +26,7 @@ export default class Menu extends Component {
         //parse server to create a game
         //user is put into the waiting room
         var that = this;
-        var url = new URL("http://localhost:4293/game/createGame");
+        var url = new URL( HOSTURL + "/game/createGame");
         fetch(url, {
             method: 'GET',
             body: JSON.stringify(),
@@ -60,7 +60,7 @@ export default class Menu extends Component {
 
         //parse server to join a game game
         //user is put in that waiting room
-        var url = new URL(`http://localhost:4293/game/joinGame/client/${gameID}`);
+        var url = new URL( HOSTURL + `/game/joinGame/client/${gameID}`);
         fetch(url, {
             method: 'GET',
             body: JSON.stringify(),
