@@ -3,13 +3,31 @@ const express = require("express");
 const router = express.Router();
 
 const SESSIONS = require("./Game").sessions;
+var socket = require("../serverr").io; //getting the socket object
+console.log(socket);
+
 const SessionIndex = {} //for memorization
+
 
 var controls = {
     player1: "",
     player2: ""
 }
 
+
+socket.on('connection', function(socket){
+    console.log(socket.id);
+})
+
+
+
+
+
+
+
+
+
+/*
 //controller inputs
 router.post("/mobile/:gameID", (req, res, next) => {
     //get the player number
@@ -20,7 +38,7 @@ router.post("/mobile/:gameID", (req, res, next) => {
 
     console.log(move);
     
-    /*
+    
     for(let i = 0; i < SESSIONS.length; i++)
     {
         if(SESSIONS[i].sessionID == gameID)
@@ -29,7 +47,7 @@ router.post("/mobile/:gameID", (req, res, next) => {
             SESSIONS[i].players[playerID].move = move;
         }
     }
-    */
+    
     
     controls.player1 = move;
     res.status(200).json({
@@ -42,7 +60,7 @@ router.post("/mobile/:gameID", (req, res, next) => {
 router.get("/client/:gameID", (req, res, next) =>{
     var gameID = req.params.gameID;
 
-    /*
+    
     if(SessionIndex[gameID] == undefined)
     {
         res.header("Content-type", "application/json");
@@ -62,13 +80,13 @@ router.get("/client/:gameID", (req, res, next) =>{
             player2: Player2Move
         })
     }
-    */
+    
 
     res.header("Content-type", "application/json");
     res.status(200).json(controls)
 
 })
-
+*/
 
 
 module.exports.controllerIO = router;
