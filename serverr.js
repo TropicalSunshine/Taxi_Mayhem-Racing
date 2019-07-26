@@ -7,11 +7,12 @@ const port = 4293;
 const server = http.createServer(app);
 
 const io = socket(server, {
+    path: "/controllerIO",
     pingTimeout: 5000
 });
 
-require("./routes/ControllerIO");
+require("./routes/ControllerIO")(io);
 
-server.listen(port);
+server.listen(port); 
 
 console.log(`listening on port ${port}......`);

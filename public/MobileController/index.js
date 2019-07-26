@@ -5,12 +5,14 @@ window.onload = function(){
     var leftButton = document.getElementById("left-button");
     var rightButton = document.getElementById("right-button");
 
+    var socket = io.connect("http://localhost:4293", {
+        path: "/controllerIO"
+    });
 
 
     jumpButton.onclick = () => {
-
         console.log("jump"); 
-        postControls("u");
+        postControls("j");
     }
 
     leftButton.onclick = () => {
@@ -26,23 +28,8 @@ window.onload = function(){
 
     function postControls(control)
     {
-        var testControl = {
-            move: control,
-            playerID: 1
-        }
-        var url = new URL("http://localhost:4293/controlIO/mobile/1234");
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(testControl),
-            headers :
-            {
-                "Content-Type" : "application/json"
-            },
-            statusMessage: `Sending controls for game ${1234}`
-        }).then(res => res.json())
-            .then(function(responseContent){
-                console.log(responseContent);
-            })
-            .catch(error => console.error(error));
+        socket.emit("input", {
+            control: control
+        })
     }
 }

@@ -3,8 +3,6 @@ const express = require("express");
 const router = express.Router();
 
 const SESSIONS = require("./Game").sessions;
-var socket = require("../serverr").io; //getting the socket object
-console.log(socket);
 
 const SessionIndex = {} //for memorization
 
@@ -15,9 +13,17 @@ var controls = {
 }
 
 
-socket.on('connection', function(socket){
-    console.log(socket.id);
-})
+module.exports = function(io)
+{
+    io.on("connection", (socket) => {
+        console.log(socket.id); 
+
+        socket.on("input", function(data){
+            console.log(data);  
+        })
+    })
+
+}
 
 
 
