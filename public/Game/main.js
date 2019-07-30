@@ -1,6 +1,8 @@
 
 //http requests for data 
+/*
 var xhttp = new XMLHttpRequest;
+
 var url = "http://localhost:4293/controlIO/client/123"
 var IDs = [];
 setInterval(() =>{
@@ -27,7 +29,33 @@ setInterval(() =>{
     xhttp.open("GET", url, true);
     xhttp.send();
 }, 1000/100);
+*/
 
+var socket = io.connect(hostURL, {
+    path: "/controllerIO"
+})
+
+socket.emit("join room client", {
+    ID: localStorage.gameID
+})
+
+socket.on("player 1 controls", function(data){
+    console.log(data);
+    var control = {
+        ID: 1,
+        DATA: data
+    }
+    keyPressed(control);
+})
+
+socket.on("player 2 controls", function(data){
+    console.log(data);
+    var control = {
+        ID: 2,
+        DATA: data
+    }
+    keyPressed(control);
+})
 
 //background image
 //stiched to the connecting one

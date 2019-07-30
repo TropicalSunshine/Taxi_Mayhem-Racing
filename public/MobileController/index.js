@@ -10,6 +10,7 @@ window.onload = function(){
 
     connectButton.onclick = () => {
         var gameID = document.getElementById("123").value;
+        localStorage.gameID = gameID;
         socket.emit("join room mobile", {
             ID: gameID
         })
@@ -57,7 +58,8 @@ window.onload = function(){
     {
         socket.emit("send controls", {
             control: control,
-            playerID: localStorage.playerID
+            playerID: localStorage.playerID,
+            gameID: localStorage.gameID
         })
     }
 }

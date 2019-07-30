@@ -21,7 +21,8 @@ module.exports.controllerIO = function(io)
             if(GAMESESSIONS[data.ID] == undefined)
             {
                 result = {
-                    gameExist: false
+                    gameExist: false,
+                    players: null
                 }
             }
             else //the game room exists
@@ -79,11 +80,11 @@ module.exports.controllerIO = function(io)
         socket.on("send controls", function(data){
             if(data.ID == 1)
             {
-                socket.broadcast.emit("player 1 controls", data.control);
+                socket.to("room-" + data.ID).broadcast.emit("player 1 controls", data.control);
             }
             else if(data.ID == 2)
             {
-                socket.broadcast.emit("player 2 controls", data.control);
+                socket.to("room-" + data.ID).broadcast.emit("player 2 controls", data.control);
             }
         })
     })

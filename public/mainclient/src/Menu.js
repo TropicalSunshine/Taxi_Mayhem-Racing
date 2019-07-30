@@ -32,6 +32,22 @@ export default class Menu extends Component {
                 players: data.players
             })
         })
+
+        that.socket.on("join room client", function(data){
+            if(data.gameExist)
+            {
+                that.setState({
+                    isWaitingRoom: true,
+                    isJoinGame: false,
+                    players: data.players
+                })
+                that.status = "";
+            }
+            else
+            {
+                that.status = "game does not exist"
+            }
+        })
     }
 
     CreateGame()
@@ -74,6 +90,10 @@ export default class Menu extends Component {
     JoinGame(gameID)
     {
         var that = this;
+
+        that.socket.emit("join room client", {
+            ID: that.gameID
+        })
         //asks the user for the game code
 
         //parse server to join a game game
@@ -130,6 +150,7 @@ export default class Menu extends Component {
         var that = this;
         return(
             <button onClick = {() => {
+                that.status = "";
                 that.setState({
                     isWaitingRoom: false,
                     isJoinGame: false,
