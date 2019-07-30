@@ -4,7 +4,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const app = express();
 
-const GameRoute = require('./routes/Game');
+const GameRoute = require('./routes/Game').Game;
 const ControllerIORoute = require("./routes/ControllerIO");
 
 //handle cors errors
@@ -24,9 +24,8 @@ app.use("/app",  express.static(path.join(__dirname + '/public/Game')));
 
 
 //Game
-app.use("/game", GameRoute.Game);
+app.use("/game", GameRoute);
 
-app.use("/controlIO", ControllerIORoute.controllerIO);
 
 //if no routes are found
 app.use((req, res, next) => {

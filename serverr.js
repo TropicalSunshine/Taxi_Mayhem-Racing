@@ -11,7 +11,7 @@ const io = socket(server, {
     pingTimeout: 5000
 });
 
-require("./routes/ControllerIO")(io);
+require("./routes/Game").controllerIO(io);
 
 server.listen(port); 
 

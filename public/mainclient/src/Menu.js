@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import "./Menu.css";
 import { HOSTURL } from './hostURL';
-
-
+import io from "socket.io-client";
 
 
 export default class Menu extends Component {
@@ -19,12 +18,27 @@ export default class Menu extends Component {
 
         this.status = null;
         this.gameID = null;
+        this.socket = io.connect(HOSTURL, {
+            path: "/controllerIO"
+        });
+
+        //listening for players to join
+        var that = this;
+        this.socket.on("player join", function(data){
+            console.log("player join");
+            that.setState({
+                isWaitingRoom: that.state.isWaitingRoom,
+                isJoinGame: that.state.isJoinGame,
+                players: data.players
+            })
+        })
     }
 
     CreateGame()
     {
         //parse server to create a game
         //user is put into the waiting room
+        
         var that = this;
         var url = new URL( HOSTURL + "/game/createGame");
         fetch(url, {
@@ -40,13 +54,17 @@ export default class Menu extends Component {
                 console.log(responseContent);
                 
                 //store the ID into the localbrowser client for the game
-                sessionStorage.ID = responseContent.sessionID;
-                that.gameID = responseContent.sessionID;
+                sessionStorage.ID = responseContent.gameID;
+                that.gameID = responseContent.gameID;
                 //change the state of the output
                 that.setState({
                     isWaitingRoom: true,
                     isJoinGame: false,
                     players: responseContent.players
+                })
+
+                that.socket.emit("join room client", {
+                    ID: that.gameID
                 })
                 
             })
@@ -60,6 +78,7 @@ export default class Menu extends Component {
 
         //parse server to join a game game
         //user is put in that waiting room
+        /*
         var url = new URL( HOSTURL + `/game/joinGame/client/${gameID}`);
         fetch(url, {
             method: 'GET',
@@ -86,6 +105,7 @@ export default class Menu extends Component {
                 }
             })
             .catch(error => console.error(error));
+        */
     }
 
     startGame()

@@ -95,4 +95,4 @@ router.get("/client/:gameID", (req, res, next) =>{
 */
 
 
-module.exports.controllerIO = router;
+//module.exports.controllerIO = router;

@@ -1,13 +1,40 @@
-
+const hostURL = "http://localhost:4293";
 
 window.onload = function(){
+    
+    var socket = io.connect(hostURL, {
+        path: "/controllerIO"
+    });
+
+    var connectButton = document.getElementById("connect-button");
+
+    connectButton.onclick = () => {
+        var gameID = document.getElementById("123").value;
+        socket.emit("join room mobile", {
+            ID: gameID
+        })
+    }
+
+    socket.on("join room mobile", function(data){
+        console.log(data);
+        if(data.gameExist)
+        {
+            connectButton.style.opacity = 0;
+            connectButton.style.hidden = true;
+            document.getElementById("status").innerHTML = "Connected";
+            localStorage.playerID = data.playerID;
+        }
+        else
+        {
+            document.getElementById("status").innerHTML = "Error Game Does not exist";
+        }
+    })
+
+
+
     var jumpButton = document.getElementById("jump-button");
     var leftButton = document.getElementById("left-button");
     var rightButton = document.getElementById("right-button");
-
-    var socket = io.connect("http://localhost:4293", {
-        path: "/controllerIO"
-    });
 
 
     jumpButton.onclick = () => {
@@ -28,8 +55,9 @@ window.onload = function(){
 
     function postControls(control)
     {
-        socket.emit("input", {
-            control: control
+        socket.emit("send controls", {
+            control: control,
+            playerID: localStorage.playerID
         })
     }
 }
