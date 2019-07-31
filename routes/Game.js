@@ -16,7 +16,7 @@ module.exports.controllerIO = function(io)
         })
 
         socket.on("join room client", function(data){
-            console.log("joining room");
+            console.log("joining room client");
             var result;
             if(GAMESESSIONS[data.ID] == undefined)
             {
@@ -78,13 +78,16 @@ module.exports.controllerIO = function(io)
         })
 
         socket.on("send controls", function(data){
-            if(data.ID == 1)
+            console.log("recieved controls");
+            console.log(data);
+
+            if(data.playerID == 1)
             {
-                socket.to("room-" + data.ID).broadcast.emit("player 1 controls", data.control);
+                socket.to("room-" + data.gameID).broadcast.emit("player 1 controls", data.control);
             }
-            else if(data.ID == 2)
+            else if(data.playerID == 2)
             {
-                socket.to("room-" + data.ID).broadcast.emit("player 2 controls", data.control);
+                socket.to("room-" + data.gameID).broadcast.emit("player 2 controls", data.control);
             }
         })
     })

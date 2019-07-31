@@ -70,7 +70,7 @@ export default class Menu extends Component {
                 console.log(responseContent);
                 
                 //store the ID into the localbrowser client for the game
-                sessionStorage.ID = responseContent.gameID;
+                localStorage.gameID = responseContent.gameID;
                 that.gameID = responseContent.gameID;
                 //change the state of the output
                 that.setState({

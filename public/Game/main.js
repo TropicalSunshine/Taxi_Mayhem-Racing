@@ -35,11 +35,14 @@ var socket = io.connect(hostURL, {
     path: "/controllerIO"
 })
 
+console.log("joining room");
+console.log(localStorage.gameID);
 socket.emit("join room client", {
     ID: localStorage.gameID
 })
 
 socket.on("player 1 controls", function(data){
+    console.log("player 1");
     console.log(data);
     var control = {
         ID: 1,
@@ -49,6 +52,7 @@ socket.on("player 1 controls", function(data){
 })
 
 socket.on("player 2 controls", function(data){
+    console.log("player 2");
     console.log(data);
     var control = {
         ID: 2,
@@ -239,7 +243,7 @@ function displayObjt(obstacles, side)
 
 function keyPressed(controls){
 
-    if(controls.ID == 0){
+    if(controls.ID == 1){
         if (controls.DATA == 'l'){
             controls.DATA = '';
             taxi1.left();
@@ -255,7 +259,7 @@ function keyPressed(controls){
         }
     }
     
-    if (controls.ID == 1){
+    if (controls.ID == 2){
         //move left
         if (controls.DATA == 'l'){
             controls.DATA = '';
