@@ -1,1 +1,1 @@
-const hostURL = "http://localhost:4293";
+const hostURL = "http://192.168.1.7:4293";

@@ -36,6 +36,8 @@ export default class Menu extends Component {
         that.socket.on("join room client", function(data){
             if(data.gameExist)
             {
+                localStorage.gameID = data.gameID;
+                that.gameID = data.gameID;
                 that.setState({
                     isWaitingRoom: true,
                     isJoinGame: false,
@@ -47,6 +49,10 @@ export default class Menu extends Component {
             {
                 that.status = "game does not exist"
             }
+        })
+
+        this.socket.on("start game", function(data) {
+            that.startGame();
         })
     }
 
@@ -183,7 +189,13 @@ export default class Menu extends Component {
         var backButton = (this.state.isWaitingRoom || this.state.isJoinGame) && that._renderBackButton();  
 
         //game button for when user is in waiting room
-        var startGame = this.state.isWaitingRoom ? <button onClick = {this.startGame}>Start Game</button> : '';
+        var startGame = this.state.isWaitingRoom ? <button onClick = {() => {
+            var that = this;
+            this.startGame();
+            this.socket.emit("start game", {
+                ID: that.gameID
+            })
+        }}>Start Game</button> : '';
 
         var joinbuttonID = "join-textinput" + Math.random();
 

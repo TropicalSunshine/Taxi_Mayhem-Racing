@@ -21,6 +21,7 @@ module.exports.controllerIO = function(io)
             if(GAMESESSIONS[data.ID] == undefined)
             {
                 result = {
+                    gameID: null,
                     gameExist: false,
                     players: null
                 }
@@ -31,12 +32,20 @@ module.exports.controllerIO = function(io)
                 socket.join("room-" + data.ID);
 
                 result = {
+                    gameID: data.ID,
                     gameExist: true,
                     players: GAMESESSIONS[data.ID].players
                 };
             }
 
             socket.emit("join room client",result);
+        })
+
+        socket.on("start game", function(data) {
+            console.log("start game");
+            socket.to("room-" + data.ID).emit("start game", {
+                data: null
+            })
         })
 
 
