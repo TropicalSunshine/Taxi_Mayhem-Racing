@@ -48,7 +48,8 @@ module.exports.controllerIO = function(io)
             })
         })
 
-
+        
+        //listening for sockets to join rooms
         socket.on("join room mobile", function(data){
             console.log("joining room mobile");
             console.log(data);

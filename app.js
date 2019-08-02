@@ -17,7 +17,7 @@ app.use('/', express.static(path.join(__dirname + '/public/mainclient/build')));
 
 //mobile page
 //must be named index.html
-app.use("/mobile", express.static(path.join(__dirname + '/public/MobileController')));
+app.use("/mobile", express.static(path.join(__dirname + '/public/mobile_controller/build')));
 
 //game page
 app.use("/app",  express.static(path.join(__dirname + '/public/Game')));
