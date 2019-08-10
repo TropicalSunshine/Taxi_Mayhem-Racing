@@ -12,8 +12,8 @@ export default class Control extends Component {
         return (
             <div className = "control">
                 <img 
-                width = "20%"
-                height = "20%"
+                width = "60%"
+                height = "60%"
                 src = {this.props.image} 
                 onClick = {() => {
                     console.log(this.props.control)

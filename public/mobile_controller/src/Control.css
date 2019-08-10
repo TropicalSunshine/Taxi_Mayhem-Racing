@@ -1,5 +1,5 @@
 .control
 {
-    position: static;
-    width: 30%;
+    float: left;
+    width: 33.3%;
 }

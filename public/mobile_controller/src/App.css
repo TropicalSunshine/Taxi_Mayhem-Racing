@@ -1,5 +1,11 @@
 #controller-background
 {
+  height: 100%;
+  width: 100%;
+}
+
+body
+{
   background-color: purple;
   background-size: cover;
   background-attachment: fixed;

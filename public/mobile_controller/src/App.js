@@ -5,8 +5,8 @@ import './App.css';
 
 function App() {
   const AppStyle = {
-    height: window.screen.height,
-    width: window.screen.width
+    height: "100%",
+    width: "100%"
   }
   return (
     <div id = "controller-background" style = {AppStyle}>

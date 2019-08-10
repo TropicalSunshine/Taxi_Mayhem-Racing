@@ -60,7 +60,6 @@ export default class Menu extends Component {
     {
         //parse server to create a game
         //user is put into the waiting room
-        
         var that = this;
         var url = new URL( HOSTURL + "/game/createGame");
         fetch(url, {
@@ -136,7 +135,7 @@ export default class Menu extends Component {
 
     startGame()
     {
-        window.open("http://localhost:4293/app", "_self");
+        window.open( HOSTURL + "app", "_self");
     }
 
     _renderWaitingRoom()
