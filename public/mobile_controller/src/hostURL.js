@@ -1,1 +1,1 @@
-export const hostURL = "https://hello.localtunnel.me/";
+export const hostURL = "https://boga.localtunnel.me";

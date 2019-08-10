@@ -1,1 +1,1 @@
-const hostURL = "https://hello.localtunnel.me/";
+const hostURL = "https://boga.localtunnel.me";

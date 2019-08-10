@@ -135,7 +135,7 @@ export default class Menu extends Component {
 
     startGame()
     {
-        window.open( HOSTURL + "app", "_self");
+        window.open( HOSTURL + "/app", "_self");
     }
 
     _renderWaitingRoom()
