@@ -35,7 +35,7 @@ socket.on("player 2 controls", function(data){
 var BACKHEIGHT = -130;
 var BGY1 = 0;
 var BGY2 = -900;
-var BGV = 8;
+var BGV = 8; //background velocity
 
 var LoopCycles = 0;
 var regulator = 0;
@@ -48,44 +48,6 @@ var gamestate = "_";
 function start()
 {
     gamestate = 'start';
-}
-
-function Bg(){
-
-    loadImage('images/roads.png', function(bg){
-        image(bg,0,BGY1);
-    });
-
-    loadImage('images/roads.png', function(bg){
-        image(bg,900,BGY1);
-    });
-
-    loadImage('images/roads.png', function(bg){
-        image(bg,0,BGY2);
-    });
-
-    loadImage('images/roads.png', function(bg){
-        image(bg,900,BGY2);
-    });
-    
-    BGY1 += BGV;
-    BGY2 += BGV;
-
-    if(BGY1 >= height){
-        BGY1 = -900;
-    }
-
-    if(BGY2 >= height){
-        BGY2 = -900;
-        LoopCycles++;
-    }
-
-    if(LoopCycles%( Math.floor( (regulator**2) ) + 5) == 0 && LoopCycles != 0)
-    {
-        BGV += 7;
-        LoopCycles = 0;
-        regulator++;
-    }
 }
 
 function checkCollision(obj, taxi, orientation){
@@ -124,8 +86,33 @@ var robstacles = [];
 var delObstacles = [];
 var objcount = 0;
 
+var bg1, bg2, bg3, bg4;
+function preLoadImg()
+{
+    loadImage('images/roads.png', function(bg){
+        console.log(bg);
+        bg1 = bg; 
+        console.log(bg1);
+    });
+
+    loadImage('images/roads.png', function(bg){
+        bg2 = bg;
+    });
+
+    loadImage('images/roads.png', function(bg){
+        bg3 = bg;
+    });
+
+    loadImage('images/roads.png', function(bg){
+        bg4 = bg;
+    });
+}
+
 function setup() {
     createCanvas(1800,900);
+    console.log("goodbye");
+    debugger;
+    preLoadImg();
     taxi1 = new Taxi('l');
     taxi2 = new Taxi('r');
     robstacles.push(new RoadObj('r'));
@@ -136,8 +123,9 @@ function setup() {
 
 function draw() {
     // Draw on your buffers however you like
-    Bg(); 
-
+    console.log("hello");
+    console.log(bg1, bg2, bg3, bg4);
+    Bg(bg1, bg2, bg3, bg4); 
     if(gamestate == 'start')
     {
         displayObjt(robstacles,"r");
@@ -162,6 +150,34 @@ function draw() {
         endgame();
         robstacles = [];
         lobstacles = [];
+    }
+}
+
+
+function Bg(a,b,c,d){
+    console.log(a);
+    image(a,0,BGY1);
+    image(b,0,BGY1);
+    image(c,0,BGY1);
+    image(d,0,BGY1);
+
+    BGY1 += BGV;
+    BGY2 += BGV;
+
+    if(BGY1 >= height){
+        BGY1 = -900;
+    }
+
+    if(BGY2 >= height){
+        BGY2 = -900;
+        LoopCycles++;
+    }
+
+    if(LoopCycles%( Math.floor( (regulator**2) ) + 5) == 0 && LoopCycles != 0)
+    {
+        BGV += 1;
+        LoopCycles = 0;
+        regulator++;
     }
 }
 
