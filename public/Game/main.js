@@ -1,35 +1,4 @@
 
-//http requests for data 
-/*
-var xhttp = new XMLHttpRequest;
-
-var url = "http://localhost:4293/controlIO/client/123"
-var IDs = [];
-setInterval(() =>{
-    var prevData = {
-        ID : null,
-        DATA: null
-    };
-    xhttp.onreadystatechange = function(){
-        if(xhttp.readyState == 4){
-            controllerdata = JSON.parse(xhttp.response);
-            data = {
-                ID: 0, 
-                DATA: controllerdata.player1
-            };
-            if(data.DATA != prevData.DATA)
-            {
-                console.log(prevData);
-                console.log(controllerdata);
-                keyPressed(data);
-            }
-            prevData = data;
-        }
-    }
-    xhttp.open("GET", url, true);
-    xhttp.send();
-}, 1000/100);
-*/
 
 var socket = io.connect(hostURL, {
     path: "/controllerIO"
@@ -82,9 +51,10 @@ function start()
 }
 
 function Bg(){
+
     loadImage('images/roads.png', function(bg){
         image(bg,0,BGY1);
-    }); 
+    });
 
     loadImage('images/roads.png', function(bg){
         image(bg,900,BGY1);
