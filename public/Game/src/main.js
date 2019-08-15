@@ -1,5 +1,6 @@
 import {RoadObj, Taxi} from "./vehicles.js";
 import {hostURL} from "./hostURL.js";
+import "./main.css";
 import io from "socket.io-client";
 import * as p5 from "./libaries/p5.js";
 

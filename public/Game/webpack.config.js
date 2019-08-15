@@ -9,6 +9,7 @@ module.exports = {
                     {
                         loader: "html-loader",
                         options: {
+                            title: "Taxi.io",
                             minimize: true
                         }
                     }
@@ -17,6 +18,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.(png|jpg)$/,
+                loader: 'url-loader'
             }
         ]
     },
