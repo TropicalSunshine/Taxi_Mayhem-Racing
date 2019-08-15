@@ -6,19 +6,21 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node serverr.js",
-    "server": "nodemon serverr.js",
-    "build-react": "cd public && cd mainclient && npm run build && cd .. && cd mobile_controller"
+    "server": "nodemon server.js",
+    "build-react": "cd public && cd mainclient && npm run build && cd .. && cd mobile_controller && npm run build"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.16.4",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "uniqid": "^5.0.3"
   },
   "devDependencies": {
     "cors": "^2.8.5",
     "nodemon": "^1.19.1",
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     "webpack-cli": "^3.3.6"
@@ -28,5 +30,8 @@
 =======
     "uniqid": "^5.0.3"
 >>>>>>> parent of 183504a... changed to local port forwarded ip
+=======
+    "webpack-cli": "^3.3.6"
+>>>>>>> parent of fbd6ecf... up to date
   }
 }
