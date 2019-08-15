@@ -1,13 +1,9 @@
-<<<<<<< HEAD
 <<<<<<< HEAD:public/Game/src/main.js
 <<<<<<< HEAD:public/Game/src/main.js
-=======
->>>>>>> parent of fbd6ecf... up to date
 import {RoadObj, Taxi} from "./vehicles.js";
 import {hostURL} from "./hostURL.js";
 import io from "socket.io-client";
 import * as p5 from "./p5.js";
-<<<<<<< HEAD
 =======
 =======
 >>>>>>> parent of 183504a... changed to local port forwarded ip:public/Game/main.js
@@ -47,8 +43,6 @@ setInterval(() =>{
 >>>>>>> parent of 183504a... changed to local port forwarded ip:public/Game/main.js
 =======
 >>>>>>> parent of 183504a... changed to local port forwarded ip:public/Game/main.js
-=======
->>>>>>> parent of fbd6ecf... up to date
 
 var socket = io.connect(hostURL, {
     path: "/controllerIO"
@@ -100,6 +94,46 @@ function start()
     gamestate = 'start';
 }
 
+<<<<<<< HEAD:public/Game/src/main.js
+=======
+function Bg(){
+    loadImage('images/roads.png', function(bg){
+        image(bg,0,BGY1);
+    }); 
+
+    loadImage('images/roads.png', function(bg){
+        image(bg,900,BGY1);
+    });
+
+    loadImage('images/roads.png', function(bg){
+        image(bg,0,BGY2);
+    });
+
+    loadImage('images/roads.png', function(bg){
+        image(bg,900,BGY2);
+    });
+    
+    BGY1 += BGV;
+    BGY2 += BGV;
+
+    if(BGY1 >= height){
+        BGY1 = -900;
+    }
+
+    if(BGY2 >= height){
+        BGY2 = -900;
+        LoopCycles++;
+    }
+
+    if(LoopCycles%( Math.floor( (regulator**2) ) + 5) == 0 && LoopCycles != 0)
+    {
+        BGV += 7;
+        LoopCycles = 0;
+        regulator++;
+    }
+}
+
+>>>>>>> parent of 183504a... changed to local port forwarded ip:public/Game/main.js
 function checkCollision(obj, taxi, orientation){
     if((obj.y + 144) >= taxi.y && obj.x == taxi.x){
 
