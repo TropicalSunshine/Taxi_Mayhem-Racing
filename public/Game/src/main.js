@@ -1,7 +1,7 @@
 import {RoadObj, Taxi} from "./vehicles.js";
 import {hostURL} from "./hostURL.js";
 import io from "socket.io-client";
-import * as p5 from "./p5.js";
+import * as p5 from "./libaries/p5.js";
 
 var socket = io.connect(hostURL, {
     path: "/controllerIO"
@@ -89,32 +89,32 @@ var robstacles = [];
 var delObstacles = [];
 var objcount = 0;
 
-var bg1, bg2, bg3, bg4;
-function preLoadImg()
-{
-    loadImage('images/roads.png', function(bg){
-        console.log(bg);
-        bg1 = bg; 
-        console.log(bg1);
-    });
-
-    loadImage('images/roads.png', function(bg){
-        bg2 = bg;
-    });
-
-    loadImage('images/roads.png', function(bg){
-        bg3 = bg;
-    });
-
-    loadImage('images/roads.png', function(bg){
-        bg4 = bg;
-    });
-}
 
 
 let s = function(sk)
 {
-
+    
+    var bg1, bg2, bg3, bg4;
+    function preLoadImg()
+    {
+        sk.loadImage('images/roads.png', function(bg){
+            console.log(bg);
+            bg1 = bg; 
+            console.log(bg1);
+        });
+    
+        sk.loadImage('images/roads.png', function(bg){
+            bg2 = bg;
+        });
+    
+        sk.loadImage('images/roads.png', function(bg){
+            bg3 = bg;
+        });
+    
+        sk.loadImage('images/roads.png', function(bg){
+            bg4 = bg;
+        });
+    }
     sk.setup = function(){
         sk.createCanvas(1800,900);
         console.log("goodbye");
@@ -137,6 +137,8 @@ let s = function(sk)
         
             taxi1.show();
         
+
+            //health bars;
             fill("red");
             rect(800, 625, 55, 250);
             fill("yellow")
@@ -155,39 +157,39 @@ let s = function(sk)
                 lobstacles = [];
             }
         }
+
+        function Bg(a,b,c,d){
+            console.log(a);
+            sk.image(a,0,BGY1);
+            sk.image(b,0,BGY1);
+            sk.image(c,0,BGY1);
+            sk.image(d,0,BGY1);
+        
+            BGY1 += BGV;
+            BGY2 += BGV;
+        
+            if(BGY1 >= height){
+                BGY1 = -900;
+            }
+        
+            if(BGY2 >= height){
+                BGY2 = -900;
+                LoopCycles++;
+            }
+        
+            if(LoopCycles%( Math.floor( (regulator**2) ) + 5) == 0 && LoopCycles != 0)
+            {
+                BGV += 1;
+                LoopCycles = 0;
+                regulator++;
+            }
+        }
         // Create both of your off-screen graphics buffers
     }
 }
 
+const p = new p5(s);
 
-
-
-function Bg(a,b,c,d){
-    console.log(a);
-    image(a,0,BGY1);
-    image(b,0,BGY1);
-    image(c,0,BGY1);
-    image(d,0,BGY1);
-
-    BGY1 += BGV;
-    BGY2 += BGV;
-
-    if(BGY1 >= height){
-        BGY1 = -900;
-    }
-
-    if(BGY2 >= height){
-        BGY2 = -900;
-        LoopCycles++;
-    }
-
-    if(LoopCycles%( Math.floor( (regulator**2) ) + 5) == 0 && LoopCycles != 0)
-    {
-        BGV += 1;
-        LoopCycles = 0;
-        regulator++;
-    }
-}
 
 function displayObjt(obstacles, side)
 {

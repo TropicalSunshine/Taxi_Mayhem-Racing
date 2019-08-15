@@ -55,3 +55,16 @@ module.exports = {
     Taxi: Taxi,
     RoadObj: RoadObj
 }
+
+
+//begin switching to better class type
+function Taxi(side)
+{
+    this._side = side;
+}
+
+Taxi.prototype = {
+    _side: null,
+    _image: null,
+    _health: 100
+}
