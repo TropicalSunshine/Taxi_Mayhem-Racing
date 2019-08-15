@@ -1,7 +1,42 @@
+<<<<<<< HEAD:public/Game/src/main.js
 import {RoadObj, Taxi} from "./vehicles.js";
 import {hostURL} from "./hostURL.js";
 import io from "socket.io-client";
 import * as p5 from "./p5.js";
+=======
+
+//http requests for data 
+/*
+var xhttp = new XMLHttpRequest;
+
+var url = "http://localhost:4293/controlIO/client/123"
+var IDs = [];
+setInterval(() =>{
+    var prevData = {
+        ID : null,
+        DATA: null
+    };
+    xhttp.onreadystatechange = function(){
+        if(xhttp.readyState == 4){
+            controllerdata = JSON.parse(xhttp.response);
+            data = {
+                ID: 0, 
+                DATA: controllerdata.player1
+            };
+            if(data.DATA != prevData.DATA)
+            {
+                console.log(prevData);
+                console.log(controllerdata);
+                keyPressed(data);
+            }
+            prevData = data;
+        }
+    }
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}, 1000/100);
+*/
+>>>>>>> parent of 183504a... changed to local port forwarded ip:public/Game/main.js
 
 var socket = io.connect(hostURL, {
     path: "/controllerIO"
@@ -53,6 +88,46 @@ function start()
     gamestate = 'start';
 }
 
+<<<<<<< HEAD:public/Game/src/main.js
+=======
+function Bg(){
+    loadImage('images/roads.png', function(bg){
+        image(bg,0,BGY1);
+    }); 
+
+    loadImage('images/roads.png', function(bg){
+        image(bg,900,BGY1);
+    });
+
+    loadImage('images/roads.png', function(bg){
+        image(bg,0,BGY2);
+    });
+
+    loadImage('images/roads.png', function(bg){
+        image(bg,900,BGY2);
+    });
+    
+    BGY1 += BGV;
+    BGY2 += BGV;
+
+    if(BGY1 >= height){
+        BGY1 = -900;
+    }
+
+    if(BGY2 >= height){
+        BGY2 = -900;
+        LoopCycles++;
+    }
+
+    if(LoopCycles%( Math.floor( (regulator**2) ) + 5) == 0 && LoopCycles != 0)
+    {
+        BGV += 7;
+        LoopCycles = 0;
+        regulator++;
+    }
+}
+
+>>>>>>> parent of 183504a... changed to local port forwarded ip:public/Game/main.js
 function checkCollision(obj, taxi, orientation){
     if((obj.y + 144) >= taxi.y && obj.x == taxi.x){
 
