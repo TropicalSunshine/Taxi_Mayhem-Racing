@@ -20,7 +20,11 @@
     "cors": "^2.8.5",
     "nodemon": "^1.19.1",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "webpack-cli": "^3.3.6"
+=======
+    "uniqid": "^5.0.3"
+>>>>>>> parent of 183504a... changed to local port forwarded ip
 =======
     "uniqid": "^5.0.3"
 >>>>>>> parent of 183504a... changed to local port forwarded ip
