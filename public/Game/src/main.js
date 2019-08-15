@@ -1,12 +1,9 @@
 <<<<<<< HEAD:public/Game/src/main.js
-<<<<<<< HEAD:public/Game/src/main.js
 import {RoadObj, Taxi} from "./vehicles.js";
 import {hostURL} from "./hostURL.js";
 import io from "socket.io-client";
 import * as p5 from "./p5.js";
 =======
-=======
->>>>>>> parent of 183504a... changed to local port forwarded ip:public/Game/main.js
 
 //http requests for data 
 /*
@@ -39,9 +36,6 @@ setInterval(() =>{
     xhttp.send();
 }, 1000/100);
 */
-<<<<<<< HEAD:public/Game/src/main.js
->>>>>>> parent of 183504a... changed to local port forwarded ip:public/Game/main.js
-=======
 >>>>>>> parent of 183504a... changed to local port forwarded ip:public/Game/main.js
 
 var socket = io.connect(hostURL, {
