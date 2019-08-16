@@ -1,8 +1,12 @@
-import {RoadObj, Taxi} from "./vehicles.js";
+
 import {hostURL} from "./hostURL.js";
 import "./main.css";
 import io from "socket.io-client";
 import * as p5 from "./libaries/p5.js";
+
+import ROADS from "./images/roads.png";
+
+var game = require("./game.js").default;
 
 var socket = io.connect(hostURL, {
     path: "/controllerIO"
@@ -34,6 +38,22 @@ socket.on("player 2 controls", function(data){
     keyPressed(control);
 })
 
+window.onload = function()
+{
+    var ctx = document.getElementById("game-canvas");
+    const context = ctx.getContext("2d");
+
+    ctx.width = 1900;
+    ctx.height = 800;
+
+    context.drawImage(ROADS, 0, 0);
+
+}
+
+
+
+
+
 //background image
 //stiched to the connecting one
 var BACKHEIGHT = -130;
@@ -53,6 +73,7 @@ function start()
 {
     gamestate = 'start';
 }
+
 
 function checkCollision(obj, taxi, orientation){
     if((obj.y + 144) >= taxi.y && obj.x == taxi.x){
@@ -92,41 +113,25 @@ var objcount = 0;
 
 
 
-let s = function(sk)
+let sketch = function(sk)
 {
-    
-    var bg1, bg2, bg3, bg4;
-    function preLoadImg()
-    {
-        sk.loadImage('images/roads.png', function(bg){
-            console.log(bg);
-            bg1 = bg; 
-            console.log(bg1);
-        });
-    
-        sk.loadImage('images/roads.png', function(bg){
-            bg2 = bg;
-        });
-    
-        sk.loadImage('images/roads.png', function(bg){
-            bg3 = bg;
-        });
-    
-        sk.loadImage('images/roads.png', function(bg){
-            bg4 = bg;
-        });
-    }
+    /*
     sk.setup = function(){
         sk.createCanvas(1800,900);
-        console.log("goodbye");
-        preLoadImg();
+        var GAME = new game(sk);
+
+        
         taxi1 = new Taxi('l');
         taxi2 = new Taxi('r');
         robstacles.push(new RoadObj('r'));
         lobstacles.push(new RoadObj('l'));
     
+    
     sk.draw = function(){
             // Draw on your buffers however you like
+
+
+            /*
             console.log("hello");
             console.log(bg1, bg2, bg3, bg4);
             Bg(bg1, bg2, bg3, bg4); 
@@ -157,14 +162,15 @@ let s = function(sk)
                 robstacles = [];
                 lobstacles = [];
             }
+            */
         }
 
         function Bg(a,b,c,d){
             console.log(a);
             sk.image(a,0,BGY1);
-            sk.image(b,0,BGY1);
-            sk.image(c,0,BGY1);
-            sk.image(d,0,BGY1);
+            sk.image(b,900,BGY1);
+            sk.image(c,0,BGY2);
+            sk.image(d,900,BGY2);
         
             BGY1 += BGV;
             BGY2 += BGV;
@@ -187,9 +193,10 @@ let s = function(sk)
         }
         // Create both of your off-screen graphics buffers
     }
+    */
 }
 
-const p = new p5(s);
+const p = new p5(sketch);
 
 
 function displayObjt(obstacles, side)
