@@ -5,6 +5,14 @@ body{
     background: url("./images/twon.png");
 }
 
+#canvas-container {
+    width: 100%;
+    text-align:center !important;
+}
+
+canvas{
+    display: inline;
+}
 .content{
     margin-top:200px;
     background-color:aqua;

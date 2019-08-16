@@ -1,12 +1,10 @@
 
 import {hostURL} from "./hostURL.js";
-import "./main.css";
 import io from "socket.io-client";
-import * as p5 from "./libaries/p5.js";
+import "./main.css";
+import Game from "./game.js";
 
-import ROADS from "./images/roads.png";
-
-var game = require("./game.js").default;
+let renderInterval = null;
 
 var socket = io.connect(hostURL, {
     path: "/controllerIO"
@@ -41,19 +39,38 @@ socket.on("player 2 controls", function(data){
 window.onload = function()
 {
     var ctx = document.getElementById("game-canvas");
-    const context = ctx.getContext("2d");
+    const canvas = ctx.getContext("2d");
+
+    console.log(canvas);
 
     ctx.width = 1900;
     ctx.height = 800;
 
-    context.drawImage(ROADS, 0, 0);
+    var GAME = new Game(canvas);
+
+    startRendering();
+
+    function render()
+    {
+        GAME.render(); 
+    }
+
+    function startRendering()
+    {
+        renderInterval = setInterval(render, 1000/50);
+    }
+
+    function stopRendering()
+    {
+        clearInterval(renderInterval);
+    }
 
 }
 
 
 
 
-
+/*
 //background image
 //stiched to the connecting one
 var BACKHEIGHT = -130;
@@ -115,7 +132,6 @@ var objcount = 0;
 
 let sketch = function(sk)
 {
-    /*
     sk.setup = function(){
         sk.createCanvas(1800,900);
         var GAME = new game(sk);
@@ -162,8 +178,9 @@ let sketch = function(sk)
                 robstacles = [];
                 lobstacles = [];
             }
-            */
+            
         }
+
 
         function Bg(a,b,c,d){
             console.log(a);
@@ -193,7 +210,6 @@ let sketch = function(sk)
         }
         // Create both of your off-screen graphics buffers
     }
-    */
 }
 
 const p = new p5(sketch);
@@ -290,3 +306,5 @@ function endgame(img){
     taunts = [" DRIVES BETTER THAN YOU"]
     text('              GAME OVER\nPLAYER ' + String( (Number(gamestate == 'r') + 1)%2 + 1 ) + taunts[0], width/2 - 825 + 250, height/2-225);
 }
+
+*/
