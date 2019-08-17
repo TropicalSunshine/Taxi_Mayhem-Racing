@@ -1,0 +1,11 @@
+body{
+    text-align: center;
+    margin-left:auto;
+    padding:auto;
+    background: url(data:image/png;base64,bW9kdWxlLmV4cG9ydHMgPSBfX3dlYnBhY2tfcHVibGljX3BhdGhfXyArICJhYjRjZGIwMmUyNDdlZTViMjRlM2Q1MjliMTliYTViYS5wbmciOw==);
+}
+
+.content{
+    margin-top:200px;
+    background-color:aqua;
+}

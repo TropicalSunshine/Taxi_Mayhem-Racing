@@ -22,7 +22,6 @@ app.use("/mobile", express.static(path.join(__dirname + '/public/mobile_controll
 //game page
 app.use("/app",  express.static(path.join(__dirname + '/public/Game/dist')));
 
-
 //Game
 app.use("/game/app", GameRoute);
 

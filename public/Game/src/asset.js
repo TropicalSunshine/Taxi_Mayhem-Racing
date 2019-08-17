@@ -1,7 +1,12 @@
+import roads from "images/roads.png";
+import heart_empty from "images/heart"
+import heart from "images/heart."
 
 const IMAGE_NAMES = [
-  'roads.png',
-  'taxi.png',
+  "roads.png",
+  "heart_empty.png",
+  'heart_empty.png',
+  'heart.png'
 ];
 
 const AUDIO_NAMES = [
@@ -22,7 +27,7 @@ function downloadI(assetName) {
       images[assetName] = asset;
       resolve();
     };
-    asset.src = `src/images/${assetName}`;
+    asset.src = assetName;
   });
 }
 

@@ -1,4 +1,5 @@
 import {getImage} from "../asset.js";
+import HealthBar from "../widgets/healthbar.js";
 
 /*
 side can either be:
@@ -13,7 +14,7 @@ export default function Taxi(side, canvas, canvasWidth, canvasHeight)
     this._img = getImage("taxi.png");
     this._canvasWidth = canvasWidth;
     this._canvasHeight = canvasHeight;
-
+    this._healthBar = new HealthBar(side, canvas, canvasWidth, canvasHeight);
     this._laneChangeLength = canvasWidth/11.5;
 
     if(side == 'l')
@@ -42,6 +43,7 @@ Taxi.prototype = {
     _canvasWidth: 0,
     _hidden: false,
     _health: 3,
+    _healthBar: null,
     _lane: 1,
     x: null,
     y: null,
@@ -58,6 +60,7 @@ Taxi.prototype = {
         var that = this;
         if(this._hidden) return null;
 
+        this._renderHealthBar();
         if(that._isJump) this._updateJumpStatus();
         this._canvas.drawImage(
             this._img, this.x, this.y, 
@@ -102,6 +105,10 @@ Taxi.prototype = {
             y: that.y
         }
     },
+    isCrashed: function()
+    {
+        return this._health == 0;
+    },
     _updateJumpStatus: function()
     {
         console.log("taxi is jumping");
@@ -140,5 +147,9 @@ Taxi.prototype = {
                 this._jumpCoolDown = false;
             }
         }
+    },
+    _renderHealthBar: function()
+    {
+        this._healthBar.render();
     }
 }
