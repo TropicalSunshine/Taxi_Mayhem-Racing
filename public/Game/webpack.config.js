@@ -1,9 +1,9 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     entry: {
-        game: "./src/main.js"
+        main: "./src/main.js"
     },
     module: {
         rules: [
@@ -17,12 +17,20 @@ module.exports = {
                 ]
             },
             {
-                test:/\.css$/,
-                use:['style-loader','css-loader']
-            },
+                test: /\.css$/,
+                use: [
+                  {
+                    loader: MiniCssExtractPlugin.loader,
+                  },
+                  'css-loader',
+                ],
+              },
             {
-                test: /\.(png|jpg)$/,
-                loader: 'url-loader'
+                test: /\.(png|jpg|jpe|svg)$/,
+                loader: 'url-loader',
+                options : {
+                    limit: 100000
+                }
             },
             {
                 test:/\.(png|svg|jpg|gif)$/,
@@ -33,6 +41,9 @@ module.exports = {
         ]
     },
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css',
+          }),
         new HtmlWebPackPlugin({
             template: "src/index.html",
             filename: "index.html"

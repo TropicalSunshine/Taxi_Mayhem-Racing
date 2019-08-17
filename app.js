@@ -24,7 +24,7 @@ app.use("/app",  express.static(path.join(__dirname + '/public/Game/dist')));
 
 
 //Game
-app.use("/game", GameRoute);
+app.use("/game/app", GameRoute);
 
 
 //if no routes are found

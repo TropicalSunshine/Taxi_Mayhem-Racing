@@ -3,9 +3,11 @@ import {hostURL} from "./hostURL.js";
 import io from "socket.io-client";
 import "./main.css";
 import Game from "./game.js";
+import { downloadImages, downloadAudios } from "./asset.js";
 
 let renderInterval = null;
 
+/*
 var socket = io.connect(hostURL, {
     path: "/controllerIO"
 })
@@ -35,18 +37,20 @@ socket.on("player 2 controls", function(data){
     }
     keyPressed(control);
 })
+*/
 
-window.onload = function()
-{
+Promise.all([
+    downloadImages(),
+    downloadAudios()
+]).then(() => {
     var ctx = document.getElementById("game-canvas");
     const canvas = ctx.getContext("2d");
 
-    console.log(canvas);
+    const scaleRatio = Math.max(1, 800 / window.innerWidth);
+    ctx.width = scaleRatio * window.innerWidth;
+    ctx.height = scaleRatio * window.innerHeight;
 
-    ctx.width = 1900;
-    ctx.height = 800;
-
-    var GAME = new Game(canvas);
+    var GAME = new Game(canvas, ctx.width, ctx.height);
 
     startRendering();
 
@@ -57,16 +61,22 @@ window.onload = function()
 
     function startRendering()
     {
-        renderInterval = setInterval(render, 1000/50);
+        renderInterval = setInterval(render, 1000/60);
     }
 
     function stopRendering()
     {
         clearInterval(renderInterval);
     }
+})
 
+/*
+window.onload = function()
+{ 
+    
 }
 
+*/
 
 
 
