@@ -9,6 +9,9 @@ side can either be:
 
 export default function Taxi(side, canvas, canvasWidth, canvasHeight)
 {
+
+    var that = this;
+
     this._side = side;
     this._canvas = canvas;
     this._img = getImage("taxi.png");
@@ -16,6 +19,9 @@ export default function Taxi(side, canvas, canvasWidth, canvasHeight)
     this._canvasHeight = canvasHeight;
     this._healthBar = new HealthBar(side, canvas, canvasWidth, canvasHeight);
     this._laneChangeLength = canvasWidth/11.5;
+    setInterval(()=> {
+        that._healthBar.deduct()
+    }, 3000);
 
     if(side == 'l')
     {

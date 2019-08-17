@@ -1,10 +1,7 @@
-import roads from "images/roads.png";
-import heart_empty from "images/heart"
-import heart from "images/heart."
 
 const IMAGE_NAMES = [
   "roads.png",
-  "heart_empty.png",
+  "taxi.png",
   'heart_empty.png',
   'heart.png'
 ];
@@ -27,7 +24,7 @@ function downloadI(assetName) {
       images[assetName] = asset;
       resolve();
     };
-    asset.src = assetName;
+    asset.src = `src/images/${assetName}`;
   });
 }
 

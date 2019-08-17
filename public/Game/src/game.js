@@ -1,5 +1,6 @@
 import {getImage} from "./asset.js";
 import Taxi from "./vehicles/taxi.js";
+import "./main.css";
 
 export default function game(canvas, width, height)
 {

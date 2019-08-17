@@ -70,14 +70,6 @@ Promise.all([
     }
 })
 
-/*
-window.onload = function()
-{ 
-    
-}
-
-*/
-
 
 
 /*

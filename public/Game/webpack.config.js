@@ -5,6 +5,11 @@ module.exports = {
     entry: {
         main: "./src/main.js"
     },
+    output: {
+        publicPath: '/',
+        path: __dirname + "src/dist",
+        filename: "[name].js"
+    },
     module: {
         rules: [
             {
@@ -42,7 +47,7 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: '[name].[contenthash].css',
+            filename: '[name].min.css',
           }),
         new HtmlWebPackPlugin({
             template: "src/index.html",
