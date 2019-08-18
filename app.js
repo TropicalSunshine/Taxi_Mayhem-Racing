@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const GameRoute = require('./routes/Game').Game;
-const ControllerIORoute = require("./routes/ControllerIO");
 
 //handle cors errors
 app.use(cors());
@@ -23,7 +22,7 @@ app.use("/mobile", express.static(path.join(__dirname + './public/mobile_control
 app.use("/app",  express.static(path.join(__dirname + './public/Game/dist')));
 
 //Game
-app.use("/game/app", GameRoute);
+app.use("/game", GameRoute);
 
 
 //if no routes are found

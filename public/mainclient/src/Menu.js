@@ -1,4 +1,9 @@
 import React, { Component } from 'react'
+import ImgButton from "./buttons/imgButton.js";
+
+import create_game_button from "./images/button_create_game.png";
+import join_game_button from "./images/button_join_game.png";
+
 import "./Menu.css";
 import { HOSTURL } from './hostURL';
 import io from "socket.io-client";
@@ -223,15 +228,16 @@ export default class Menu extends Component {
             return (
                 <div id = "Menu">
                     <div>
-                        <button className = "menu-button-item" onClick = {this.CreateGame}>Create Game</button>
-                        <button className = "menu-button-item" onClick = {() => 
+                        <ImgButton img = {create_game_button} event = {that.CreateGame} 
+                        width = "200px" height = "200px"/>
+                        <ImgButton img = {join_game_button} event = {() => 
                         {
                             that.setState({
                                 isWaitingRoom: that.state.isWaitingRoom,
                                 isJoinGame: true,
                                 players: that.state.players
                             })
-                        }}>Join Game</button>
+                        }} width = "200px" height = "200px"/>
                     </div>
                     {that.status}
                     {waitingRoom}
