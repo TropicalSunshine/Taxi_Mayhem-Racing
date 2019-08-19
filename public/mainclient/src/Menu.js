@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import ImgButton from "./buttons/imgButton.js";
 
-import create_game_button from "./images/button_create_game.png";
-import join_game_button from "./images/button_join_game.png";
+import button_create_game from "./images/button_create_game.png";
+import button_join_game from "./images/button_join_game.png";
+import button_back from "./images/button_back.png";
+import button_start from "./images/button_start.png";
 
 import "./Menu.css";
 import { HOSTURL } from './hostURL';
@@ -159,14 +161,14 @@ export default class Menu extends Component {
     {
         var that = this;
         return(
-            <button onClick = {() => {
+            <ImgButton img = {button_back} event = {() => {
                 that.status = "";
                 that.setState({
                     isWaitingRoom: false,
                     isJoinGame: false,
                     players: that.state.players
                 })
-            }}>Back</button>
+            }} width = "200px" height = "200px" />
         )
     }
     _renderInputBox()
@@ -176,10 +178,13 @@ export default class Menu extends Component {
         return (
             <div>
                 <input id = {joinbuttonID} type = "text" name = "gameID" placeholder = "Enter the Game ID"></input>
-                <button onClick = {() => {
-                    that.gameID = document.getElementById(joinbuttonID).value
-                    that.JoinGame(that.gameID)
-                }}>Join</button>
+                <div className = "menu-buttons">
+                    <ImgButton img = {button_join_game} event = {() => {
+                        that.gameID = document.getElementById(joinbuttonID).value
+                        that.JoinGame(that.gameID)
+                    }} width = "200px" height = "200px"/>
+                    {that._renderBackButton()}
+                </div>
             </div>
         )
     }
@@ -189,17 +194,19 @@ export default class Menu extends Component {
 
         var waitingRoom = this.state.isWaitingRoom && that._renderWaitingRoom();
 
-        //prompts the user to go back to the old screen
-        var backButton = (this.state.isWaitingRoom || this.state.isJoinGame) && that._renderBackButton();  
-
         //game button for when user is in waiting room
-        var startGame = this.state.isWaitingRoom ? <button onClick = {() => {
-            var that = this;
-            this.startGame();
-            this.socket.emit("start game", {
-                ID: that.gameID
-            })
-        }}>Start Game</button> : '';
+        var startGame = this.state.isWaitingRoom ? (
+            <div className = "menu-buttons">
+                <ImgButton img = {button_start} event = {() => {
+                    var that = this;
+                    this.startGame();
+                    this.socket.emit("start game", {
+                    ID: that.gameID
+                })
+                }} width = "200px" height = "200px" />
+                {that._renderBackButton()}
+            </div>
+            ) : '';
 
         var joinbuttonID = "join-textinput" + Math.random();
 
@@ -218,7 +225,6 @@ export default class Menu extends Component {
                     {waitingRoom}
                     {startGame}
                     {inputID}
-                    {backButton}
                 </div>
             )
         }
@@ -227,10 +233,10 @@ export default class Menu extends Component {
             //add a input box
             return (
                 <div id = "Menu">
-                    <div>
-                        <ImgButton img = {create_game_button} event = {that.CreateGame} 
+                    <div className = "menu-buttons">
+                        <ImgButton img = {button_create_game} event = {that.CreateGame} 
                         width = "200px" height = "200px"/>
-                        <ImgButton img = {join_game_button} event = {() => 
+                        <ImgButton img = {button_join_game} event = {() => 
                         {
                             that.setState({
                                 isWaitingRoom: that.state.isWaitingRoom,
@@ -243,7 +249,6 @@ export default class Menu extends Component {
                     {waitingRoom}
                     {startGame}
                     {inputID}
-                    {backButton}
                 </div>
             )
         }

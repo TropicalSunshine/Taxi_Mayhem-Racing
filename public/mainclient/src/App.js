@@ -1,12 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
+import title from "./images/title.png"
 import Menu from './Menu';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <h1 id = "taxi-title-main"> Taxi.IO </h1>
+    <div id="App">
+      <img style = {{
+        width: "400px",
+        height: "200px",
+        marginLeft: "auto",
+        marginRight: "auto",
+        display: "block "
+      }}src = {title}></img>
       <Menu/>
     </div>
   );

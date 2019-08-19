@@ -5,6 +5,10 @@
     padding: auto;
     height: 100%;
     text-align: center;
+}
+
+.menu-buttons
+{
     display: flex;
     justify-content: center;
     align-content: center;

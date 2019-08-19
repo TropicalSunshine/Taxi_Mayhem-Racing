@@ -1,30 +1,33 @@
 import {getImage} from "./asset.js";
+import {getHeight, getWidth, getCanvas} from "./global.js";
 import Taxi from "./vehicles/taxi.js";
 import "./main.css";
 
-export default function game(canvas, width, height)
+export default function Game()
 {
-    this._canvas = canvas;
-    this._canvasWidth = width;
-    this._canvasHeight = height;
+    this._canvas = getCanvas();
+    this._canvasWidth = getHeight;
+    this._canvasHeight = getWidth;
+
+    this._backgroundTwoY = getHeight();
     
     for(var i = 1; i < 5; i++)
     {
         this._background[`b${i}`] = getImage("roads.png");
     }
-    this._Ltaxi = new Taxi('l', canvas, width, height);
-    this._Rtaxi = new Taxi('r', canvas, width, height);
+    this._Ltaxi = new Taxi('l', getCanvas(), this._canvasWidth(), this._canvasHeight());
+    this._Rtaxi = new Taxi('r', getCanvas(), this._canvasWidth(), this._canvasHeight());
 }
 
-game.prototype = {
-    _canvasWidth: 0,
-    _canvasHeight: 0,
+Game.prototype = {
+    _canvasWidth: null,
+    _canvasHeight: null,
     _canvas: null,
     _gamestate: null,
     _isJump: false,
     _backgroundVelocity: 8,
     _backgroundOneY: 0,
-    _backgroundTwoY: -900,
+    _backgroundTwoY: 0,
     _speedCounter: 0,
     _background: {
         b1: null,
@@ -39,10 +42,10 @@ game.prototype = {
     _renderBackground: function(){
         var that = this;
         
-        this._canvas.drawImage(that._background.b1, 0, this._backgroundOneY, that._canvasWidth/2, that._canvasHeight);
-        this._canvas.drawImage(that._background.b2, that._canvasWidth/2, this._backgroundOneY,  that._canvasWidth/2, that._canvasHeight);
-        this._canvas.drawImage(that._background.b3, 0, this._backgroundTwoY,  that._canvasWidth/2, that._canvasHeight);
-        this._canvas.drawImage(that._background.b4, that._canvasWidth/2, this._backgroundTwoY,  that._canvasWidth/2, that._canvasHeight);
+        this._canvas.drawImage(that._background.b1, 0, this._backgroundOneY, that._canvasWidth()/2, that._canvasHeight());
+        this._canvas.drawImage(that._background.b2, that._canvasWidth()/2, this._backgroundOneY,  that._canvasWidth()/2, that._canvasHeight());
+        this._canvas.drawImage(that._background.b3, 0, this._backgroundTwoY,  that._canvasWidth()/2, that._canvasHeight());
+        this._canvas.drawImage(that._background.b4, that._canvasWidth()/2, this._backgroundTwoY,  that._canvasWidth()/2, that._canvasHeight());
     },
     _renderTaxis: function()
     {
@@ -64,13 +67,12 @@ game.prototype = {
         this._backgroundOneY += that._backgroundVelocity;
         this._backgroundTwoY += that._backgroundVelocity;
     
-        if(this._backgroundOneY >= 900){
-            this._backgroundOneY = -900;
+        if(this._backgroundOneY >= that._canvasHeight()){
+            this._backgroundOneY = -that._canvasHeight();
         }
     
-        if(this._backgroundTwoY >= 900){
-            this._backgroundTwoY = -900;
-            this._speedCounter++;
+        if(this._backgroundTwoY >= that._canvasHeight()){
+            this._backgroundTwoY = -that._canvasHeight();
         }
     }, 
     startGame: function()

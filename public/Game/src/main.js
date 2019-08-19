@@ -3,7 +3,9 @@ import {hostURL} from "./hostURL.js";
 import io from "socket.io-client";
 import "./main.css";
 import Game from "./game.js";
+
 import { downloadImages, downloadAudios } from "./asset.js";
+import {setHeight, setWidth, setCanvas} from "./global.js";
 
 let renderInterval = null;
 
@@ -50,7 +52,11 @@ Promise.all([
     ctx.width = scaleRatio * window.innerWidth;
     ctx.height = scaleRatio * window.innerHeight;
 
-    var GAME = new Game(canvas, ctx.width, ctx.height);
+    setCanvas(canvas);
+    setHeight(ctx.height);
+    setWidth(ctx.width);
+
+    var GAME = new Game();
 
     startRendering();
 

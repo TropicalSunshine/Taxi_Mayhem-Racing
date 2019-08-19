@@ -1,5 +1,6 @@
 
 const IMAGE_NAMES = [
+  "blue_car.png",
   "roads.png",
   "taxi.png",
   'heart_empty.png',

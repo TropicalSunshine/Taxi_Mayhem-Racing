@@ -1,4 +1,26 @@
+#App
+{
+  padding-top: 12%;
+}
+
+body
+{
+  background: url("./images/background.png") repeat center center;
+  height: 100%;
+  background-size: cover;
+  background-attachment: fixed;  
+}
+
+input{
+  height: 50px;
+  border-radius: 5px;
+  font-size: 10pt;
+  box-sizing: border-box;
+}
+
+
 #taxi-title-main
 {
   text-align: center;
+  padding:auto; 
 }
