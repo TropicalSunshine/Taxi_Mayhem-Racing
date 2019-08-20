@@ -1,14 +1,9 @@
 import {getHeight, getWidth, getCanvas} from "../global.js";
 
-export default class BaseObstacles
+export default function BaseObstacles()
 {
-    constructor(side)
-    {
-        this._canvasHeight = getHeight;
-        this._canvasWidth = getWidth;
-
-        this.side = side;
-    }
+    this._canvasHeight = getHeight;
+    this._canvasWidth = getWidth;
 }
 
 BaseObstacles.prototype  = {
@@ -21,9 +16,11 @@ BaseObstacles.prototype  = {
     speed: 0,
     _canvasWidth: 0,
     _canvasHeight: 0,
+    _canvas: null,
     render: function()
     {
-        getCanvas().drawImage(this.img, this.x, this.y,
+        this._update(); 
+        this._canvas.drawImage(this.img, this.x, this.y - this.height,
                                 this.width, this.height)
     },
     getCordinates: function()
@@ -36,5 +33,9 @@ BaseObstacles.prototype  = {
             width: that.width,
             height: that.height
         }
+    },
+    _update: function()
+    {
+        this.y += this.speed;
     }
 }

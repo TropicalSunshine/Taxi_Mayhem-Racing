@@ -1,13 +1,16 @@
 import {getImage} from "./asset.js";
 import {getHeight, getWidth, getCanvas} from "./global.js";
 import Taxi from "./vehicles/taxi.js";
+import RoadObjectSpawner from "./widgets/RoadObjectSpawner.js";
+
 import "./main.css";
 
 export default function Game()
 {
     this._canvas = getCanvas();
-    this._canvasWidth = getHeight;
-    this._canvasHeight = getWidth;
+    this._canvasWidth = getWidth;
+    this._canvasHeight = getHeight;
+
 
     this._backgroundTwoY = getHeight();
     
@@ -17,6 +20,9 @@ export default function Game()
     }
     this._Ltaxi = new Taxi('l', getCanvas(), this._canvasWidth(), this._canvasHeight());
     this._Rtaxi = new Taxi('r', getCanvas(), this._canvasWidth(), this._canvasHeight());
+
+    this._rObstSpawner = new RoadObjectSpawner('r');
+    this._lObstSpawner = new RoadObjectSpawner('l');
 }
 
 Game.prototype = {
@@ -37,8 +43,8 @@ Game.prototype = {
     },
     _Ltaxi: null,
     _Rtaxi: null,
-    _rObstacles: [],
-    _lObstacles: [],
+    _rObstSpawner: null,
+    _lObstSpawner: null,
     _renderBackground: function(){
         var that = this;
         
@@ -53,12 +59,18 @@ Game.prototype = {
         this._Ltaxi.jump();
         this._Rtaxi.render();
     },
+    _renderObstacles: function()
+    {
+        this._rObstSpawner.render();
+        this._lObstSpawner.render();
+    },
     render: function()
     {
         var that = this;
 
         this._updateBackground();
         this._renderBackground();
+        this._renderObstacles();
         this._renderTaxis();
     },
     _updateBackground: function()
@@ -75,6 +87,10 @@ Game.prototype = {
             this._backgroundTwoY = -that._canvasHeight();
         }
     }, 
+    _checkCollision: function()
+    {
+
+    },
     startGame: function()
     {
 

@@ -11,7 +11,6 @@ export default function Taxi(side, canvas, canvasWidth, canvasHeight)
 {
 
     var that = this;
-
     this._side = side;
     this._canvas = canvas;
     this._img = getImage("taxi.png");
@@ -38,6 +37,10 @@ export default function Taxi(side, canvas, canvasWidth, canvasHeight)
     
         this.height = canvasHeight/6;
         this.width = canvasWidth/20;
+    }
+    else
+    {
+        throw new Error("not a lane");
     }
 }
 

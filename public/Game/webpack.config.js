@@ -7,20 +7,11 @@ module.exports = {
     },
     output: {
         publicPath: '/',
-        path: __dirname + "dist",
-        filename: "[name].js"
+        path: __dirname + "/dist",
+        filename: "game.js"
     },
     module: {
         rules: [
-            {
-                test:/\.html$/,
-                use: [
-                    {
-                        loader: "html-loader",
-                        options: {minimize: true}
-                    }
-                ]
-            },
             {
                 test: /\.css$/,
                 use: [
@@ -31,13 +22,6 @@ module.exports = {
                 ],
               },
             {
-                test: /\.(png|jpg|jpe|svg)$/,
-                loader: 'url-loader',
-                options : {
-                    limit: 100000
-                }
-            },
-            {
                 test:/\.(png|svg|jpg|gif)$/,
                 use: [
                     "file-loader"
@@ -47,7 +31,7 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: '[name].min.css',
+            filename: '[name].css',
           }),
         new HtmlWebPackPlugin({
             template: "src/index.html",
