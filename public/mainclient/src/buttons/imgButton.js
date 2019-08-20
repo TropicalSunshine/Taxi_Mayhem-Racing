@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import "./imgButton.css"
+import "./ImgButton.css"
 
 export default class ImgButton extends Component {
     constructor(props)
