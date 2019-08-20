@@ -1,10 +1,12 @@
 import {getWidth, getHeight} from "../global.js";
 import BlueCar from "../obstacles/vehicles/BlueCar.js";
-
+import GreenTruck from "../obstacles/vehicles/GreenTruck.js";
 
 export default function RoadObjectSpawner(side)
 {
     var canvasWidth = getWidth();
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = getHeight();
     var shift = canvasWidth/11.5;
     if(side == 'l')
     {
@@ -23,11 +25,15 @@ export default function RoadObjectSpawner(side)
 }
 
 RoadObjectSpawner.prototype = {
-    _frequency: 110,
+    _frequency: 100,
     _frequencyCounter: 0,
-    roadObjects: [BlueCar],
+    roadObjects: [BlueCar, GreenTruck],
     currentObstacles: [],
     lanes: [], //x axis
+    canvasHeight: 0, 
+    canvasWidth: 0,
+    playerCords: null,
+    isCollision: false,
     render: function()
     {
         var that = this;
@@ -45,9 +51,15 @@ RoadObjectSpawner.prototype = {
         {
             obstacle = that.currentObstacles[obst];
             obstacle.render();
-            if(obstacle.y == getHeight())
+
+            if((obstacle.y) >= that.playerCords.y && obstacle.x === that.playerCords.x)
             {
-                delete that.currentObstacles[obst];
+                that.isCollision = true; //callback function for taxi to take damage
+            }
+
+            if(obstacle.y - obstacle.height >= that.canvasHeight)
+            {
+                that.currentObstacles.shift();
             }
         }
     },
@@ -55,11 +67,22 @@ RoadObjectSpawner.prototype = {
     {
         var that = this;
 
-        var object = new that.roadObjects[Math.floor(Math.random() * this.roadObjects.length)];
+        var object = new that.roadObjects[Math.floor(Math.random() * that.roadObjects.length)];
         object.x = that.lanes[Math.floor(Math.random() * that.lanes.length)];
 
         this.currentObstacles.push(object);
 
         object = null;
+    },
+    changeFrequency: function(freq)
+    {
+        this._frequency = freq;
+    },
+    checkCollision: function(cords)
+    {
+        this.playerCords = cords;
+        var result = this.isCollision;
+        this.isCollision = false;
+        return result;
     }
 }

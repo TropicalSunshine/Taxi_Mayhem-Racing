@@ -14,13 +14,11 @@ export default function Taxi(side, canvas, canvasWidth, canvasHeight)
     this._side = side;
     this._canvas = canvas;
     this._img = getImage("taxi.png");
+    this._carDamageStage = [];
     this._canvasWidth = canvasWidth;
     this._canvasHeight = canvasHeight;
     this._healthBar = new HealthBar(side, canvas, canvasWidth, canvasHeight);
     this._laneChangeLength = canvasWidth/11.5;
-    setInterval(()=> {
-        that._healthBar.deduct()
-    }, 3000);
 
     if(side == 'l')
     {
@@ -30,6 +28,7 @@ export default function Taxi(side, canvas, canvasWidth, canvasHeight)
         this.height = canvasHeight/6;
         this.width = canvasWidth/20;
     }
+
     else if(side == 'r')
     {
         this.x = canvasWidth/1.38;
@@ -64,13 +63,16 @@ Taxi.prototype = {
     _jumpTimer: 0,
     _jumpCoolDown: false,
     _coolDownDecrement: 0,
+    _carDamageStage: [],
+    isInvincible: false,
     render: function()
     {
         var that = this;
-        if(this._hidden) return null;
-
         this._renderHealthBar();
         if(that._isJump) this._updateJumpStatus();
+
+        if(this._hidden) return null;
+
         this._canvas.drawImage(
             this._img, this.x, this.y, 
             this.width * this._carRatio, this.height * this._carRatio
@@ -99,6 +101,7 @@ Taxi.prototype = {
         {
             console.log("jump");
             that._isJump = true;
+            that.isInvincible = true;
             that._jumpTimer = 1;
         }
     },
@@ -111,12 +114,37 @@ Taxi.prototype = {
         var that = this;
         return {
             x: that.x,
-            y: that.y
+            y: that.y,
+            height: that.height,
+            width: that.width
         }
     },
     isCrashed: function()
     {
         return this._health == 0;
+    },
+    takeDamage: function()
+    {
+        var that = this;
+        if(this._health != 0) this._health -= 1;
+        
+        this._healthBar.deduct();
+        this.isInvincible = true;
+        //turn on blink
+        var blinkCounter = 0;
+        var blinkInterval;
+        var blink = () => {
+            if(blinkCounter == 200)
+            {
+                that._hidden = true;
+                clearInterval(blinkInterval);
+                that.isInvincible = false;
+            }
+            that._hidden = !that._hidden;
+            blinkCounter++;
+        }
+
+        blinkInterval = setInterval(blink,1000/100)
     },
     _updateJumpStatus: function()
     {
@@ -141,6 +169,7 @@ Taxi.prototype = {
         if(this._jumpTimer <= 0 && this._isJump == true)
         {
             this._isJump = false;
+            this.isInvincible = false;
 
             this._jumpCoolDown = true;
             this._coolDownDecrement = 1;

@@ -7,6 +7,7 @@ import "./main.css";
 
 export default function Game()
 {
+    var that = this;
     this._canvas = getCanvas();
     this._canvasWidth = getWidth;
     this._canvasHeight = getHeight;
@@ -21,8 +22,8 @@ export default function Game()
     this._Ltaxi = new Taxi('l', getCanvas(), this._canvasWidth(), this._canvasHeight());
     this._Rtaxi = new Taxi('r', getCanvas(), this._canvasWidth(), this._canvasHeight());
 
-    this._rObstSpawner = new RoadObjectSpawner('r');
-    this._lObstSpawner = new RoadObjectSpawner('l');
+    this._rObstSpawner = new RoadObjectSpawner('r', that._Rtaxi);
+    this._lObstSpawner = new RoadObjectSpawner('l', that._Ltaxi);
 }
 
 Game.prototype = {
@@ -56,7 +57,6 @@ Game.prototype = {
     _renderTaxis: function()
     {
         this._Ltaxi.render();
-        this._Ltaxi.jump();
         this._Rtaxi.render();
     },
     _renderObstacles: function()
@@ -71,6 +71,7 @@ Game.prototype = {
         this._updateBackground();
         this._renderBackground();
         this._renderObstacles();
+        this._checkCollision();
         this._renderTaxis();
     },
     _updateBackground: function()
@@ -89,6 +90,13 @@ Game.prototype = {
     }, 
     _checkCollision: function()
     {
+
+        var resultL = this._lObstSpawner.checkCollision(this._Ltaxi.getCordinates());
+        var resultR = this._rObstSpawner.checkCollision(this._Rtaxi.getCordinates());
+
+        //check if invisible 
+        (resultL && !this._Ltaxi.isInvincible) ? this._Ltaxi.takeDamage(): null;
+        (resultR && !this._Rtaxi.isInvincible) ? this._Rtaxi.takeDamage(): null;
 
     },
     startGame: function()

@@ -4,7 +4,11 @@ const IMAGE_NAMES = [
   "roads.png",
   "taxi.png",
   'heart_empty.png',
-  'heart.png'
+  'heart.png',
+  'green_truck.png',
+  'taxi_second.png',
+  'taxi_third.png',
+  'taxi_fourth.png'
 ];
 
 const AUDIO_NAMES = [

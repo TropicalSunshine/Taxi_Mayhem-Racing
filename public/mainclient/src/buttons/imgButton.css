@@ -1,3 +1,7 @@
 .img-button{
     float:left;
 }
+
+.img-button img{
+    cursor: pointer;
+}
