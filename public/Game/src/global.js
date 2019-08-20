@@ -1,17 +1,15 @@
 
-
-
 var canvasWidth = 0;
 var canvasHeight = 0;
 var canvas = null;
 
 
 export const setHeight = (height) => {
-    canvasWidth = height;
+    canvasHeight = height;
 }
 
 export const setWidth = (width) => {
-    canvasHeight = width;
+    canvasWidth = width;
 }
 
 export const setCanvas = (ctx) => {
