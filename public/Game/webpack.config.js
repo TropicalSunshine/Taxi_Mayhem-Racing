@@ -6,9 +6,9 @@ module.exports = {
         main: "./src/main.js"
     },
     output: {
-        publicPath: '/',
+        publicPath: './',
         path: __dirname + "/dist",
-        filename: "game.js"
+        filename: "main.js"
     },
     module: {
         rules: [
