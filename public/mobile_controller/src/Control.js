@@ -15,7 +15,7 @@ export default class Control extends Component {
                 width = "60%"
                 height = "60%"
                 src = {this.props.image} 
-                onClick = {() => {
+                onMouseUp = {() => {
                     console.log(this.props.control)
                     that.props.socket.emit("send controls", {
                         control: this.props.control,

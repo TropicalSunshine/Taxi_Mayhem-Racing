@@ -8,6 +8,7 @@ import { downloadImages, downloadAudios } from "./asset.js";
 import {setHeight, setWidth, setCanvas} from "./global.js";
 
 let renderInterval = null;
+let GAME = null;
 
 var socket = io.connect(hostURL, {
     path: "/controllerIO"
@@ -26,7 +27,7 @@ socket.on("player 1 controls", function(data){
         ID: 1,
         DATA: data
     }
-    keyPressed(control);
+    GAME.takeInput(control);
 })
 
 socket.on("player 2 controls", function(data){
@@ -36,7 +37,7 @@ socket.on("player 2 controls", function(data){
         ID: 2,
         DATA: data
     }
-    keyPressed(control);
+    GAME.takeInput(control);
 })
 
 Promise.all([
@@ -54,7 +55,7 @@ Promise.all([
     setHeight(ctx.height);
     setWidth(ctx.width);
 
-    var GAME = new Game();
+    GAME = new Game();
 
     startRendering();
 

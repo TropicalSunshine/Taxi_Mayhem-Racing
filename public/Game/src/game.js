@@ -99,8 +99,39 @@ Game.prototype = {
         (resultR && !this._Rtaxi.isInvincible) ? this._Rtaxi.takeDamage(): null;
 
     },
-    _takeInput: function(ctrl)
+    takeInput: function(ctrl)
     {
+        console.log(ctrl);
+        if(ctrl.ID == 1)
+        {
+            switch(ctrl.DATA)
+            {
+                case 'l':
+                    console.log("moving left");
+                    this._Ltaxi.left();
+                case 'r':
+                    console.log("movign right");
+                    this._Ltaxi.right();
+                case 'j':
+                    this._Ltaxi.jump();
+                default: 
+                    null
+            }
+        }
+        else if(ctrl.ID == 2)
+        {
+            switch(ctrl.DATA)
+            {
+                case 'l':
+                    this._Rtaxi.left();
+                case 'r':
+                    this._Rtaxi.right();
+                case 'j':
+                    this._Rtaxi.jump();
+                default: 
+                    null
+            }
+        }
     },
     startGame: function()
     {
