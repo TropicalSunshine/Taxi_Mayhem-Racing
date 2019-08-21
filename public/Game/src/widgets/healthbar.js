@@ -22,9 +22,19 @@ export default function HealthBar(side, canvas, canvasWidth, canvasHeight)
 
 
     this.y = canvasHeight - (canvasWidth/16); 
-    this._hearts[0].img = getImage("heart.png");
-    this._hearts[1].img = getImage("heart.png");
-    this._hearts[2].img = getImage("heart.png");
+    if(side == 'l')
+    {
+        //solution to this.heart img's getting replaced across all instances
+        this.Lhearts[0].img = getImage("heart.png");
+        this.Lhearts[1].img = getImage("heart.png");
+        this.Lhearts[2].img = getImage("heart.png");
+    }
+    else if(side == 'r')
+    {
+        this.Rhearts[0].img = getImage("heart.png");
+        this.Rhearts[1].img = getImage("heart.png");
+        this.Rhearts[2].img = getImage("heart.png");
+    }
 }
 
 HealthBar.prototype = {
@@ -37,7 +47,21 @@ HealthBar.prototype = {
     _canvasWidth: 0,
     _canvasHeight: 0,
     _health: 3,
-    _hearts: [
+    Lhearts: [
+        {
+            state: true,
+            img: null
+        },
+        {
+            state: true,
+            img: null
+        },
+        {
+            state: true,
+            img: null
+        },
+    ],
+    Rhearts: [
         {
             state: true,
             img: null
@@ -54,26 +78,33 @@ HealthBar.prototype = {
     render: function()
     {
         var that = this;
-
+        
         if(that._side == 'l')
         {
-            this.canvas.drawImage(that._hearts[0].img, this.x, this.y,this.width, this.height)
-            this.canvas.drawImage(that._hearts[1].img, this.x, this.y - 150,this.width, this.height)
-            this.canvas.drawImage(that._hearts[2].img, this.x, this.y - 300,this.width, this.height)
+            this.canvas.drawImage(that.Lhearts[0].img, this.x, this.y,this.width, this.height)
+            this.canvas.drawImage(that.Lhearts[1].img, this.x, this.y - 150,this.width, this.height)
+            this.canvas.drawImage(that.Lhearts[2].img, this.x, this.y - 300,this.width, this.height)
         }
         else if(that._side == 'r')
         {
-            this.canvas.drawImage(that._hearts[0].img, this.x, this.y,this.width, this.height)
-            this.canvas.drawImage(that._hearts[1].img, this.x, this.y - 150,this.width, this.height)
-            this.canvas.drawImage(that._hearts[2].img, this.x, this.y - 300,this.width, this.height)
+            this.canvas.drawImage(that.Rhearts[0].img, this.x, this.y,this.width, this.height)
+            this.canvas.drawImage(that.Rhearts[1].img, this.x, this.y - 150,this.width, this.height)
+            this.canvas.drawImage(that.Rhearts[2].img, this.x, this.y - 300,this.width, this.height)
         }
     },
     deduct: function()
     {
+        var that = this;
         if(this._health != 0)
         {
-            console.log("deducting health");
-            this._hearts[this._health - 1].img = getImage("heart_empty.png");
+            if(this._side == 'l')
+            {
+                this.Lhearts[this._health - 1].img = getImage("heart_empty.png");
+            }
+            else if(this._side == 'r')
+            {
+                this.Rhearts[this._health - 1].img = getImage("heart_empty.png");    
+            }
             this._health -= 1;
         }
     },
@@ -81,7 +112,14 @@ HealthBar.prototype = {
     {
         if(this._health != 3)
         {
-            this._hearts[this._health].img = getImage("heart.png");
+            if(this._side == 'l')
+            {
+                this.Lhearts[this._health].img = getImage("heart.png");
+            }
+            else if(this._side == 'r')
+            {
+                this.Rhearts[this._health].img = getImage("heart.png");    
+            }
             this._health += 1;
         }
     }

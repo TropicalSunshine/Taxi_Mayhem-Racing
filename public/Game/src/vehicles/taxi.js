@@ -127,7 +127,6 @@ Taxi.prototype = {
     {
         var that = this;
         if(this._health != 0) this._health -= 1;
-        
         this._healthBar.deduct();
         this.isInvincible = true;
         //turn on blink

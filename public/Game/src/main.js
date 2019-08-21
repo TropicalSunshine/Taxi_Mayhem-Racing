@@ -9,7 +9,6 @@ import {setHeight, setWidth, setCanvas} from "./global.js";
 
 let renderInterval = null;
 
-/*
 var socket = io.connect(hostURL, {
     path: "/controllerIO"
 })
@@ -39,7 +38,6 @@ socket.on("player 2 controls", function(data){
     }
     keyPressed(control);
 })
-*/
 
 Promise.all([
     downloadImages(),

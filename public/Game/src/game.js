@@ -99,6 +99,9 @@ Game.prototype = {
         (resultR && !this._Rtaxi.isInvincible) ? this._Rtaxi.takeDamage(): null;
 
     },
+    _takeInput: function(ctrl)
+    {
+    },
     startGame: function()
     {
 
