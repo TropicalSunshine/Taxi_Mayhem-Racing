@@ -47,6 +47,7 @@ RoadObjectSpawner.prototype = {
         //spawn all objects
         //---room for optimization??
         var obstacle = null;
+
         for(let obst = 0; obst < that.currentObstacles.length; obst++)
         {
             obstacle = that.currentObstacles[obst];
@@ -59,9 +60,11 @@ RoadObjectSpawner.prototype = {
 
             if(obstacle.y - obstacle.height >= that.canvasHeight)
             {
-                that.currentObstacles.shift();
+               that.currentObstacles.splice(obst, 1);
+               console.log(this.currentObstacles);
             }
         }
+
     },
     _addObject: function()
     {

@@ -101,35 +101,35 @@ Game.prototype = {
     },
     takeInput: function(ctrl)
     {
-        console.log(ctrl);
         if(ctrl.ID == 1)
         {
-            switch(ctrl.DATA)
+
+            if(ctrl.DATA == 'l')
             {
-                case 'l':
-                    console.log("moving left");
-                    this._Ltaxi.left();
-                case 'r':
-                    console.log("movign right");
-                    this._Ltaxi.right();
-                case 'j':
-                    this._Ltaxi.jump();
-                default: 
-                    null
+                this._Ltaxi.left()
+            }
+            else if(ctrl.DATA == 'r')
+            {
+                this._Ltaxi.right();
+            }
+            else if(ctrl.DATA == 'j')
+            {
+                this._Ltaxi.jump();
             }
         }
         else if(ctrl.ID == 2)
         {
-            switch(ctrl.DATA)
+            if(ctrl.DATA == 'l')
             {
-                case 'l':
-                    this._Rtaxi.left();
-                case 'r':
-                    this._Rtaxi.right();
-                case 'j':
-                    this._Rtaxi.jump();
-                default: 
-                    null
+                this._Rtaxi.left()
+            }
+            else if(ctrl.DATA == 'r')
+            {
+                this._Rtaxi.right();
+            }
+            else if(ctrl.DATA == 'j')
+            {
+                this._Rtaxi.jump();
             }
         }
     },
