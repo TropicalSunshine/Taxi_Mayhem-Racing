@@ -61,7 +61,6 @@ RoadObjectSpawner.prototype = {
             if(obstacle.y - obstacle.height >= that.canvasHeight)
             {
                that.currentObstacles.splice(obst, 1);
-               console.log(this.currentObstacles);
             }
         }
 

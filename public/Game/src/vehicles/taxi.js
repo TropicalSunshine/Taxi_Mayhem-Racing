@@ -69,7 +69,7 @@ Taxi.prototype = {
     {
         var that = this;
         this._renderHealthBar();
-        if(that._isJump) this._updateJumpStatus();
+        this._updateJumpStatus();
 
         if(this._hidden) return null;
 
@@ -125,29 +125,31 @@ Taxi.prototype = {
     },
     takeDamage: function()
     {
-        var that = this;
-        if(this._health != 0) this._health -= 1;
-        this._healthBar.deduct();
-        this.isInvincible = true;
-        //turn on blink
-        var blinkCounter = 0;
-        var blinkInterval;
-        var blink = () => {
-            if(blinkCounter == 200)
-            {
-                that._hidden = true;
-                clearInterval(blinkInterval);
-                that.isInvincible = false;
+        if(this.isInvincible == false)
+       { 
+            var that = this;
+            if(this._health != 0) this._health -= 1;
+            this._healthBar.deduct();
+            this.isInvincible = true;
+            //turn on blink
+            var blinkCounter = 0;
+            var blinkInterval;
+            var blink = () => {
+                if(blinkCounter == 200)
+                {
+                    that._hidden = true;
+                    clearInterval(blinkInterval);
+                    that.isInvincible = false;
+                }
+                that._hidden = !that._hidden;
+                blinkCounter++;
             }
-            that._hidden = !that._hidden;
-            blinkCounter++;
-        }
 
-        blinkInterval = setInterval(blink,1000/100)
+            blinkInterval = setInterval(blink,1000/100) 
+        }
     },
     _updateJumpStatus: function()
     {
-        console.log("taxi is jumping");
         if(this._jumpTimer > 0)
         {
             this._jumpTimer -= .01; //CHANGEABLE----
