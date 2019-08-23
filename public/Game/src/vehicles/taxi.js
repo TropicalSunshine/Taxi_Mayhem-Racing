@@ -20,6 +20,11 @@ export default function Taxi(side, canvas, canvasWidth, canvasHeight)
     this._healthBar = new HealthBar(side, canvas, canvasWidth, canvasHeight);
     this._laneChangeLength = canvasWidth/11.5;
 
+    this._carDamageStage.push(getImage("taxi_fourth.png"));
+    this._carDamageStage.push(getImage("taxi_third.png"));
+    this._carDamageStage.push(getImage("taxi_second.png"));
+    this._carDamageStage.push(getImage("taxi.png"));
+
     if(side == 'l')
     {
         this.x = canvasWidth/4.45;
@@ -128,7 +133,7 @@ Taxi.prototype = {
         if(this.isInvincible == false)
        { 
             var that = this;
-            if(this._health != 0) this._health -= 1;
+            if(this._health != 0) this._health -= 1, this._img = this._carDamageStage[this._health];
             this._healthBar.deduct();
             this.isInvincible = true;
             //turn on blink
@@ -147,6 +152,11 @@ Taxi.prototype = {
 
             blinkInterval = setInterval(blink,1000/100) 
         }
+    },
+    reset: function()
+    {
+        this._health = 3;
+        this._healthBar.reset();
     },
     _updateJumpStatus: function()
     {

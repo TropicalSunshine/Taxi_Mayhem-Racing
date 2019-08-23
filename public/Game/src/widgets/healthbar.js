@@ -1,4 +1,5 @@
 import {getImage} from "../asset.js";
+import { timingSafeEqual } from "crypto";
 
 export default function HealthBar(side, canvas, canvasWidth, canvasHeight)
 {
@@ -121,6 +122,22 @@ HealthBar.prototype = {
                 this.Rhearts[this._health].img = getImage("heart.png");    
             }
             this._health += 1;
+        }
+    },
+    reset: function()
+    {
+        this._health = 3;
+        if(this._side == 'l')
+        {
+            this.Lhearts[0].img = getImage("heart.png");
+            this.Lhearts[1].img = getImage("heart.png");
+            this.Lhearts[2].img = getImage("heart.png");
+        }
+        else if(this._side == 'r')
+        {
+            this.Rhearts[0].img = getImage("heart.png");
+            this.Rhearts[1].img = getImage("heart.png");
+            this.Rhearts[2].img = getImage("heart.png");
         }
     }
 }

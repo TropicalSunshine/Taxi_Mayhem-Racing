@@ -12,6 +12,8 @@ export default function Game()
     this._canvasWidth = getWidth;
     this._canvasHeight = getHeight;
 
+    this.gamestate = false;
+
 
     this._backgroundTwoY = getHeight();
     
@@ -19,6 +21,7 @@ export default function Game()
     {
         this._background[`b${i}`] = getImage("roads.png");
     }
+    
     this._Ltaxi = new Taxi('l', getCanvas(), this._canvasWidth(), this._canvasHeight());
     this._Rtaxi = new Taxi('r', getCanvas(), this._canvasWidth(), this._canvasHeight());
 
@@ -30,7 +33,7 @@ Game.prototype = {
     _canvasWidth: null,
     _canvasHeight: null,
     _canvas: null,
-    _gamestate: null,
+    gamestate: null,
     _isJump: false,
     _backgroundVelocity: 8,
     _backgroundOneY: 0,
@@ -70,8 +73,11 @@ Game.prototype = {
 
         this._updateBackground();
         this._renderBackground();
-        this._renderObstacles();
-        this._checkCollision();
+        if(that.gamestate)
+        {     
+            this._renderObstacles();
+            this._checkCollision();
+        }
         this._renderTaxis();
     },
     _updateBackground: function()
@@ -135,7 +141,7 @@ Game.prototype = {
     },
     startGame: function()
     {
-
+        this.gamestate = true;
     }, 
     restartGame: function()
     {
