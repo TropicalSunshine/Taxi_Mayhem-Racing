@@ -1,6 +1,7 @@
 import {getWidth, getHeight} from "../global.js";
 import BlueCar from "../obstacles/vehicles/BlueCar.js";
 import GreenTruck from "../obstacles/vehicles/GreenTruck.js";
+import { DH_CHECK_P_NOT_SAFE_PRIME } from "constants";
 
 export default function RoadObjectSpawner(side)
 {
@@ -34,11 +35,12 @@ RoadObjectSpawner.prototype = {
     canvasWidth: 0,
     playerCords: null,
     isCollision: false,
+    isSpawn: false,
     render: function()
     {
         var that = this;
         this._frequencyCounter++;
-        if(that._frequencyCounter == that._frequency)
+        if(that.isSpawn && that._frequencyCounter == that._frequency)
         {
             that._addObject();
             that._frequencyCounter = 0;
@@ -86,5 +88,14 @@ RoadObjectSpawner.prototype = {
         var result = this.isCollision;
         this.isCollision = false;
         return result;
+    }, 
+    stop: function()
+    {
+        this.isSpawn = false;
+        this._frequencyCounter = 0;
+    },
+    start: function()
+    {
+        this.isSpawn = true;
     }
 }

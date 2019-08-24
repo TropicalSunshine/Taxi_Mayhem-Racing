@@ -7,10 +7,13 @@ import Game from "./game.js";
 import { downloadImages, downloadAudios } from "./asset.js";
 import {setHeight, setWidth, setCanvas} from "./global.js";
 
+export var menu = document.getElementById("menu");
+
+
 let renderInterval = null;
 let GAME = null;
 
-var socket = io.connect(hostURL, {
+export var socket = io.connect(hostURL, {
     path: "/controllerIO"
 })
 
@@ -39,6 +42,30 @@ socket.on("player 2 controls", function(data){
     }
     GAME.takeInput(control);
 })
+
+
+window.onload = function()
+{
+    var restart_button = document.getElementById("restart_button");
+    var start_button = document.getElementById("start_button");
+
+    start_button.onclick = function()
+    {
+        GAME.startGame();
+        start_button.classList.add("hidden");
+        restart_button.classList.remove("hidden");
+        menu.classList.add("hidden");
+    }
+    
+    restart_button.onclick = function()
+    {
+        GAME.reset();
+        menu.classList.add("hidden");
+    }
+}
+
+
+
 
 Promise.all([
     downloadImages(),

@@ -3,7 +3,13 @@ import {getHeight, getWidth, getCanvas} from "./global.js";
 import Taxi from "./vehicles/taxi.js";
 import RoadObjectSpawner from "./widgets/RoadObjectSpawner.js";
 
+import {menu} from "./index.js";
+
 import "./main.css";
+
+
+var restartButton = document.getElementsByClassName("restart_button")[0];
+
 
 export default function Game()
 {
@@ -11,8 +17,6 @@ export default function Game()
     this._canvas = getCanvas();
     this._canvasWidth = getWidth;
     this._canvasHeight = getHeight;
-
-    this.gamestate = false;
 
 
     this._backgroundTwoY = getHeight();
@@ -33,7 +37,8 @@ Game.prototype = {
     _canvasWidth: null,
     _canvasHeight: null,
     _canvas: null,
-    gamestate: null,
+    gamestate: false,
+    winner: null, 
     _isJump: false,
     _backgroundVelocity: 8,
     _backgroundOneY: 0,
@@ -64,6 +69,8 @@ Game.prototype = {
     },
     _renderObstacles: function()
     {
+        if (this._rObstSpawner.isSpawn == false && this.gamestate) this._rObstSpawner.start(), this._lObstSpawner.start();
+
         this._rObstSpawner.render();
         this._lObstSpawner.render();
     },
@@ -73,12 +80,16 @@ Game.prototype = {
 
         this._updateBackground();
         this._renderBackground();
-        if(that.gamestate)
-        {     
-            this._renderObstacles();
-            this._checkCollision();
-        }
+   
+        this._renderObstacles();
+        this._checkCollision();
+
         this._renderTaxis();
+
+        if(this.winner != "")
+        {
+            this.endGame();
+        }
     },
     _updateBackground: function()
     {
@@ -103,6 +114,17 @@ Game.prototype = {
         //check if invisible 
         (resultL && !this._Ltaxi.isInvincible) ? this._Ltaxi.takeDamage(): null;
         (resultR && !this._Rtaxi.isInvincible) ? this._Rtaxi.takeDamage(): null;
+
+        if(this._Ltaxi.health == 0)
+        {
+            this.gamestate = false;
+            this.winner = 'l';
+        }
+        else if(this._Rtaxi.health == 0)
+        {
+            this.gamestate = false;
+            this.winner = 'r';
+        }
 
     },
     takeInput: function(ctrl)
@@ -141,10 +163,23 @@ Game.prototype = {
     },
     startGame: function()
     {
+        console.log("starting game");
         this.gamestate = true;
+        this.winner =  "";
     }, 
-    restartGame: function()
+    reset: function()
     {
-
+        console.log("restarting game");
+        this.winner = "";
+        this._Ltaxi.reset();
+        this._Rtaxi.reset();
+        this.gamestate = true;
+    },
+    endGame: function()
+    {
+        this._rObstSpawner.stop();
+        this._lObstSpawner.stop();
+        this.gamestate = false;
+        menu.classList.remove("hidden");
     }
 }

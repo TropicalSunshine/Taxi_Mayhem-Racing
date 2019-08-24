@@ -55,7 +55,7 @@ Taxi.prototype = {
     _canvasHeight:0,
     _canvasWidth: 0,
     _hidden: false,
-    _health: 3,
+    health: 3,
     _healthBar: null,
     _lane: 1,
     x: null,
@@ -126,14 +126,18 @@ Taxi.prototype = {
     },
     isCrashed: function()
     {
-        return this._health == 0;
+        return this.health == 0;
     },
     takeDamage: function()
     {
         if(this.isInvincible == false)
        { 
+           
             var that = this;
-            if(this._health != 0) this._health -= 1, this._img = this._carDamageStage[this._health];
+            if(this.health != 0) {
+                this.health -= 1;
+                this._img = this._carDamageStage[that.health]
+            };
             this._healthBar.deduct();
             this.isInvincible = true;
             //turn on blink
@@ -155,7 +159,8 @@ Taxi.prototype = {
     },
     reset: function()
     {
-        this._health = 3;
+        this.health = 3;
+        this._img = this._carDamageStage[3];
         this._healthBar.reset();
     },
     _updateJumpStatus: function()
