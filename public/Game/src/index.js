@@ -1,9 +1,6 @@
-
-import {hostURL} from "./hostURL.js";
-import io from "socket.io-client";
 import "./main.css";
 import Game from "./game.js";
-
+import {connect, socket, startGame, restartGame} from "./network.js";
 import { downloadImages, downloadAudios } from "./asset.js";
 import {setHeight, setWidth, setCanvas} from "./global.js";
 
@@ -12,15 +9,78 @@ export var menu = document.getElementById("menu");
 
 let renderInterval = null;
 let GAME = null;
+let LANES;
 
-export var socket = io.connect(hostURL, {
-    path: "/controllerIO"
-})
-
-console.log("joining room");
+console.log("http://" + window.location.host);
 console.log(localStorage.gameID);
-socket.emit("join room client", {
-    ID: localStorage.gameID
+
+
+window.onload = function()
+{
+    var restart_button = document.getElementById("restart_button");
+    var start_button = document.getElementById("start_button");
+    start_button.onclick = function()
+    {
+       start(); 
+    }
+    restart_button.onclick = function()
+    {
+        reset();
+    }
+}
+
+
+const start = () =>
+{
+    startGame();
+    GAME.startGame();
+    start_button.classList.add("hidden");
+    restart_button.classList.remove("hidden");
+    menu.classList.add("hidden");
+}
+
+const reset = () => {
+    restartGame();
+    GAME.reset();
+    menu.classList.add("hidden");
+}
+
+
+
+Promise.all([
+    connect(),
+    downloadImages(),
+    downloadAudios()
+]).then(() => {
+    var ctx = document.getElementById("game-canvas");
+    const canvas = ctx.getContext("2d");
+
+    const scaleRatio = Math.max(1, 800 / window.innerWidth);
+    ctx.width = scaleRatio * window.innerWidth;
+    ctx.height = scaleRatio * window.innerHeight;
+
+    setCanvas(canvas);
+    setHeight(ctx.height);
+    setWidth(ctx.width);
+
+    GAME = new Game(LANES);
+
+    startRendering();
+
+    function render()
+    {
+        GAME.render(); 
+    }
+
+    function startRendering()
+    {
+        renderInterval = setInterval(render, 1000/60);
+    }
+
+    function stopRendering()
+    {
+        clearInterval(renderInterval);
+    }
 })
 
 socket.on("player 1 controls", function(data){
@@ -43,65 +103,17 @@ socket.on("player 2 controls", function(data){
     GAME.takeInput(control);
 })
 
-
-window.onload = function()
-{
-    var restart_button = document.getElementById("restart_button");
-    var start_button = document.getElementById("start_button");
-
-    start_button.onclick = function()
-    {
-        GAME.startGame();
-        start_button.classList.add("hidden");
-        restart_button.classList.remove("hidden");
-        menu.classList.add("hidden");
-    }
-    
-    restart_button.onclick = function()
-    {
-        GAME.reset();
-        menu.classList.add("hidden");
-    }
-}
-
-
-
-
-Promise.all([
-    downloadImages(),
-    downloadAudios()
-]).then(() => {
-    var ctx = document.getElementById("game-canvas");
-    const canvas = ctx.getContext("2d");
-
-    const scaleRatio = Math.max(1, 800 / window.innerWidth);
-    ctx.width = scaleRatio * window.innerWidth;
-    ctx.height = scaleRatio * window.innerHeight;
-
-    setCanvas(canvas);
-    setHeight(ctx.height);
-    setWidth(ctx.width);
-
-    GAME = new Game();
-
-    startRendering();
-
-    function render()
-    {
-        GAME.render(); 
-    }
-
-    function startRendering()
-    {
-        renderInterval = setInterval(render, 1000/60);
-    }
-
-    function stopRendering()
-    {
-        clearInterval(renderInterval);
-    }
+socket.on("start game", function(){
+    start();
 })
 
+socket.on("restart game", function(){
+    reset();
+})
+
+socket.on("join room client", function(data){
+    LANES = data.lanes;
+})
 
 
 /*

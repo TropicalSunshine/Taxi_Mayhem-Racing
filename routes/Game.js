@@ -5,6 +5,19 @@ const path = require("path");
 const router = express.Router();
 
 var GAMESESSIONS = {};
+var LANES = {};
+
+
+var RANDOM_LANES = [0,0,0,1,1,1,1,2,2,2,0,0,0,0,0,1,1,1,1,2,2,2];
+
+
+function shuffle(array)
+{
+    var c = array;
+    c.sort(() => Math.random() - 0.5);
+    return c;
+}
+
 
 module.exports.controllerIO = function(io)
 {
@@ -13,6 +26,7 @@ module.exports.controllerIO = function(io)
         socket.on("create game", function(data){
             console.log("creating game");
             socket.join("room-" + data.ID);
+            LANES[data.ID] = shuffle(RANDOM_LANES);
         })
 
         socket.on("join room client", function(data){
@@ -21,6 +35,7 @@ module.exports.controllerIO = function(io)
             if(GAMESESSIONS[data.ID] == undefined)
             {
                 result = {
+                    lanes: null,
                     gameID: null,
                     gameExist: false,
                     players: null
@@ -32,6 +47,7 @@ module.exports.controllerIO = function(io)
                 socket.join("room-" + data.ID);
 
                 result = {
+                    lanes: LANES[data.ID],
                     gameID: data.ID,
                     gameExist: true,
                     players: GAMESESSIONS[data.ID].players
@@ -99,6 +115,14 @@ module.exports.controllerIO = function(io)
             {
                 socket.to("room-" + data.gameID).broadcast.emit("player 2 controls", data.control);
             }
+        })
+
+        socket.on("start game", function(data){
+            socket.to("room-" + data.ID).broadcast.emit("start game");
+        })
+
+        socket.on("restart game", function(data){
+          socket.to("room-" + data.ID).broadcast.emit("restart game");  
         })
     })
 

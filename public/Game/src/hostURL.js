@@ -1,1 +1,0 @@
-export const hostURL = "http://47.151.243.244:4293";

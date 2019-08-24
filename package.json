@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node serverr.js",
     "server": "nodemon server.js",
-    "build-react": "cd public && cd mainclient && npm run build && cd .. && cd mobile_controller && npm run build"
+    "build:react": "cd public && cd mainclient && npm run build && cd .. && cd mobile_controller && npm run build",
+    "build": "cd public && cd mainclient && npm run build && cd .. && cd mobile_controller && npm run build && cd .. && cd Game && npm run build"
   },
   "author": "",
   "license": "ISC",

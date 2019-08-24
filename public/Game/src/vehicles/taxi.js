@@ -130,6 +130,7 @@ Taxi.prototype = {
     },
     takeDamage: function()
     {
+        console.log("isinvinsible", this.isInvincible);
         if(this.isInvincible == false)
        { 
            
@@ -161,6 +162,7 @@ Taxi.prototype = {
     {
         this.health = 3;
         this._img = this._carDamageStage[3];
+        this.isInvincible = false;
         this._healthBar.reset();
     },
     _updateJumpStatus: function()

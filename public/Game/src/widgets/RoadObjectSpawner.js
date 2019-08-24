@@ -28,6 +28,8 @@ export default function RoadObjectSpawner(side)
 RoadObjectSpawner.prototype = {
     _frequency: 100,
     _frequencyCounter: 0,
+    _lanes: 0,
+    _lanesCounter: 0,
     roadObjects: [BlueCar, GreenTruck],
     currentObstacles: [],
     lanes: [], //x axis
