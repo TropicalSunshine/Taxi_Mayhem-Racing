@@ -51,13 +51,14 @@ RoadObjectSpawner.prototype = {
         //spawn all objects
         //---room for optimization??
         var obstacle = null;
+        var obstacle_center  = 0;
 
         for(let obst = 0; obst < that.currentObstacles.length; obst++)
         {
             obstacle = that.currentObstacles[obst];
             obstacle.render();
-
-            if((obstacle.y) >= that.playerCords.y && obstacle.x == that.playerCords.x)
+            obstacle_center = obstacle.x + (obstacle.width/2);
+            if((obstacle.y) >= that.playerCords.y && (obstacle_center) == (that.playerCords.x + (that.playerCords.width/2)))
             {
                 console.log("collided");
                 that.isCollision = true; //callback function for taxi to take damage
