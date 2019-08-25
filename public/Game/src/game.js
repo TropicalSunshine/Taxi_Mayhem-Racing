@@ -65,7 +65,6 @@ Game.prototype = {
     _renderTaxis: function()
     {
         this._Ltaxi.render();
-        this._Ltaxi.jump(); 
         this._Rtaxi.render();
     },
     _renderObstacles: function()
