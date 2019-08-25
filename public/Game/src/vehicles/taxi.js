@@ -130,7 +130,6 @@ Taxi.prototype = {
     },
     takeDamage: function()
     {
-        console.log("isinvinsible", this.isInvincible);
         if(this.isInvincible == false)
        { 
            
@@ -186,6 +185,7 @@ Taxi.prototype = {
         //if just went from aerial to landing
         if(this._jumpTimer <= 0 && this._isJump == true)
         {
+            this.x -= 2; //fixes invisbility bug where after car jumps then becomes permanantly invisible
             this._isJump = false;
             this.isInvincible = false;
 

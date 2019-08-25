@@ -65,7 +65,7 @@ Game.prototype = {
     _renderTaxis: function()
     {
         this._Ltaxi.render();
-        this._Ltaxi.jump();
+        this._Ltaxi.jump(); 
         this._Rtaxi.render();
     },
     _renderObstacles: function()
@@ -82,10 +82,11 @@ Game.prototype = {
         this._updateBackground();
         this._renderBackground();
    
-        this._renderObstacles();
         this._checkCollision();
 
+        this._renderObstacles();
         this._renderTaxis();
+
 
         if(this.winner != "")
         {
@@ -108,12 +109,10 @@ Game.prototype = {
     }, 
     _checkCollision: function()
     {
-
         var resultL = this._lObstSpawner.checkCollision(this._Ltaxi.getCordinates());
         var resultR = this._rObstSpawner.checkCollision(this._Rtaxi.getCordinates());
 
         //check if invisible 
-        console.log(!this._Ltaxi.isInvincible, resultL);
         (resultL && !this._Ltaxi.isInvincible) ? this._Ltaxi.takeDamage(): null;
         (resultR && !this._Rtaxi.isInvincible) ? this._Rtaxi.takeDamage(): null;
 

@@ -1,7 +1,6 @@
 import {getWidth, getHeight} from "../global.js";
 import BlueCar from "../obstacles/vehicles/BlueCar.js";
 import GreenTruck from "../obstacles/vehicles/GreenTruck.js";
-import { DH_CHECK_P_NOT_SAFE_PRIME } from "constants";
 
 export default function RoadObjectSpawner(side)
 {
@@ -26,6 +25,7 @@ export default function RoadObjectSpawner(side)
 }
 
 RoadObjectSpawner.prototype = {
+    _action: null,
     _frequency: 100,
     _frequencyCounter: 0,
     _lanes: 0,
@@ -57,8 +57,9 @@ RoadObjectSpawner.prototype = {
             obstacle = that.currentObstacles[obst];
             obstacle.render();
 
-            if((obstacle.y) >= that.playerCords.y && obstacle.x === that.playerCords.x)
+            if((obstacle.y) >= that.playerCords.y && obstacle.x == that.playerCords.x)
             {
+                console.log("collided");
                 that.isCollision = true; //callback function for taxi to take damage
             }
 
