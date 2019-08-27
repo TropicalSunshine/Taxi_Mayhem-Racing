@@ -40,24 +40,6 @@ export default class Menu extends Component {
             })
         })
 
-        that.socket.on("join room client", function(data){
-            if(data.gameExist)
-            {
-                localStorage.gameID = data.gameID;
-                that.gameID = data.gameID;
-                that.setState({
-                    isWaitingRoom: true,
-                    isJoinGame: false,
-                    players: data.players
-                })
-                that.status = "";
-            }
-            else
-            {
-                that.status = "game does not exist"
-            }
-        })
-
         this.socket.on("start game", function(data) {
             that.startGame();
         })
@@ -71,17 +53,18 @@ export default class Menu extends Component {
         var url = new URL( HOSTURL + "/game/createGame");
         fetch(url, {
             method: 'GET',
-            body: JSON.stringify(),
+            body: null,
             headers :
             {
                 "Content-Type" : "application/json"
             },
-            statusMessage: `Sending controls for game ${1234}`
+            statusMessage: `Creating game`
         }).then(res => res.json())
             .then(function(responseContent){
                 console.log(responseContent);
                 
                 //store the ID into the localbrowser client for the game
+                localStorage.lanes = responseContent.lanes;
                 localStorage.gameID = responseContent.gameID;
                 that.gameID = responseContent.gameID;
                 //change the state of the output
@@ -103,28 +86,33 @@ export default class Menu extends Component {
     {
         var that = this;
 
+        /*
         that.socket.emit("join room client", {
             ID: that.gameID
         })
+        */
         //asks the user for the game code
 
         //parse server to join a game game
         //user is put in that waiting room
-        /*
-        var url = new URL( HOSTURL + `/game/joinGame/client/${gameID}`);
+        var url = new URL( HOSTURL + `/game/joinGame/${gameID}`);
         fetch(url, {
             method: 'GET',
-            body: JSON.stringify(),
+            body: null  ,
             headers :
             {
                 "Content-Type" : "application/json"
             },
-            statusMessage: `Sending controls for game ${1234}`
+            statusMessage: `attempting to join game ${gameID}`
         }).then(res => res.json())
             .then(function(responseContent){
-
-                if(responseContent.message === "connected")
+                console.log(responseContent);
+                if(responseContent.gameExist)
                 {
+                    localStorage.lanes = responseContent.lanes;
+                    localStorage.gameID = responseContent.gameID;
+                    that.gameID = responseContent.gameID;
+                    that.status = "";
                     that.setState({
                         isWaitingRoom: true,
                         isJoinGame: false,
@@ -137,7 +125,6 @@ export default class Menu extends Component {
                 }
             })
             .catch(error => console.error(error));
-        */
     }
 
     startGame()

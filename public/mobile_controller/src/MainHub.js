@@ -12,8 +12,8 @@ export default class MainHub extends Component {
         var that = this;
         this.status = null;
         this.state = {
-            isConnectScreen: true,
-            isControllerScreen: false
+            isConnectScreen: false,
+            isControllerScreen: true
         }
 
         //initial socket attempt to conenct to main host

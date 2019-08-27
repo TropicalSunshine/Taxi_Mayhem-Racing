@@ -14,7 +14,9 @@ export default class ControllerHub extends Component {
     render() {
         var that = this;
         return (
-            <div id = "controller-hub">
+            <div id = "controller-hub" onMouseDown = {() =>{
+                return false;
+            }}>
                 <Control 
                 socket = {this.props.socket}
                 control = "l"

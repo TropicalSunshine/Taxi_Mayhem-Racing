@@ -5,8 +5,6 @@ const path = require("path");
 const router = express.Router();
 
 var GAMESESSIONS = {};
-var LANES = {};
-
 
 var RANDOM_LANES = [0,0,0,1,1,1,1,2,2,2,0,0,0,0,0,1,1,1,1,2,2,2];
 
@@ -23,70 +21,42 @@ module.exports.controllerIO = function(io)
 {
 
     io.on("connection", function(socket){
-        socket.on("create game", function(data){
-            console.log("creating game");
-            socket.join("room-" + data.ID);
-            LANES[data.ID] = shuffle(RANDOM_LANES);
-        })
 
-        socket.on("join room client", function(data){
-            console.log("joining room client");
-            var result;
-            if(GAMESESSIONS[data.ID] == undefined)
-            {
-                result = {
-                    lanes: null,
-                    gameID: null,
-                    gameExist: false,
-                    players: null
-                }
-            }
-            else //the game room exists
-            {
-                console.log("and room exists");
-                socket.join("room-" + data.ID);
+        //CLIENT socket cmds
 
-                result = {
-                    lanes: LANES[data.ID],
-                    gameID: data.ID,
-                    gameExist: true,
-                    players: GAMESESSIONS[data.ID].players
-                };
-            }
 
-            socket.emit("join room client",result);
-        })
-
+        //starting the game through client
         socket.on("start game", function(data) {
             console.log("start game");
-            socket.to("room-" + data.ID).emit("start game", {
+            socket.to("room-" + gameID).emit("start game", {
                 data: null
             })
         })
 
-        
+
+        //MOBILE socket cmds
         //listening for sockets to join rooms
         socket.on("join room mobile", function(data){
             console.log("joining room mobile");
             console.log(data);
-            if(GAMESESSIONS[data.ID] != undefined)
+            if(GAMESESSIONS[gameID] != undefined)
             {
                 var playerID = 0;
 
-                if(GAMESESSIONS[data.ID].players.includes("player-1"))
+                if(GAMESESSIONS[gameID].players.includes("player-1"))
                 {
                     playerID = 2;
-                    GAMESESSIONS[data.ID].players.push("player-2");
+                    GAMESESSIONS[gameID].players.push("player-2");
                 }
                 else
                 {
                     playerID = 1;
-                    GAMESESSIONS[data.ID].players.push("player-1");
+                    GAMESESSIONS[gameID].players.push("player-1");
                 }
 
-                socket.join("room-" + data.ID);
-                socket.to("room-" + data.ID).emit("player join", {
-                    players : GAMESESSIONS[data.ID].players
+                socket.join("room-" + gameID);
+                socket.to("room-" + gameID).emit("player join", {
+                    players : GAMESESSIONS[gameID].players
                 });
                 socket.emit("join room mobile", {
                     gameExist: true,
@@ -118,11 +88,11 @@ module.exports.controllerIO = function(io)
         })
 
         socket.on("start game", function(data){
-            socket.to("room-" + data.ID).broadcast.emit("start game");
+            socket.to("room-" + gameID).broadcast.emit("start game");
         })
 
         socket.on("restart game", function(data){
-          socket.to("room-" + data.ID).broadcast.emit("restart game");  
+          socket.to("room-" + gameID).broadcast.emit("restart game");  
         })
     })
 
@@ -137,17 +107,52 @@ router.get("/createGame", (req, res, next) => {
 
     
     var uniqueID = uniqid().slice(-5, -1);
-    console.log("creating a game " + uniqueID);
+    console.log("creating a game ", uniqueID);
+    var lanes = shuffle(RANDOM_LANES);
+
     res.header("Content-type", "application/json");
     res.status(202).json({
+        lanes: lanes,
         message : "Game Created",
         gameID : uniqueID,
         players: []
     })
 
     GAMESESSIONS[uniqueID] = {
+        lanes: lanes,
         players: []
     }
+})
+
+
+router.get("/joinGame/:gameID", (req, res, next) => {
+    const gameID = req.params.gameID;
+    console.log("joining room client: ", gameID);
+
+    var result;
+    if(GAMESESSIONS[gameID] == undefined)
+    {
+        result = {
+            lanes: null,
+            gameID: null,
+            gameExist: false,
+            players: null
+        }
+    }
+    else //the game room exists
+    {
+        console.log("and room exists");
+
+        result = {
+            lanes: GAMESESSIONS[gameID].lanes,
+            gameID: gameID,
+            gameExist: true,
+            players: GAMESESSIONS[gameID].players
+        };
+    }
+
+    res.header("Content-type", "application/json");
+    res.status(202).json(result);
 })
 
 module.exports.Game = router;
