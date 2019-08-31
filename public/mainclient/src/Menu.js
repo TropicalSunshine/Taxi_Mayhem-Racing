@@ -64,8 +64,8 @@ export default class Menu extends Component {
                 console.log(responseContent);
                 
                 //store the ID into the localbrowser client for the game
-                localStorage.lanes = responseContent.lanes;
-                localStorage.gameID = responseContent.gameID;
+                sessionStorage.lanes = responseContent.lanes;
+                sessionStorage.gameID = responseContent.gameID;
                 that.gameID = responseContent.gameID;
                 //change the state of the output
                 that.setState({
@@ -84,6 +84,7 @@ export default class Menu extends Component {
 
     JoinGame(gameID)
     {
+        console.log("clicked");
         var that = this;
 
         /*
@@ -109,14 +110,18 @@ export default class Menu extends Component {
                 console.log(responseContent);
                 if(responseContent.gameExist)
                 {
-                    localStorage.lanes = responseContent.lanes;
-                    localStorage.gameID = responseContent.gameID;
+                    sessionStorage.lanes = responseContent.lanes;
+                    sessionStorage.gameID = responseContent.gameID;
                     that.gameID = responseContent.gameID;
                     that.status = "";
                     that.setState({
                         isWaitingRoom: true,
                         isJoinGame: false,
                         players: responseContent.players
+                    });
+
+                    that.socket.emit("join room client", {
+                        ID: that.gameID
                     })
                 }
                 else

@@ -9,10 +9,9 @@ export var menu = document.getElementById("menu");
 
 let renderInterval = null;
 let GAME = null;
-let LANES;
 
 console.log("http://" + window.location.host);
-console.log(localStorage.gameID);
+console.log(sessionStorage.gameID);
 
 
 window.onload = function()
@@ -63,7 +62,7 @@ Promise.all([
     setHeight(ctx.height);
     setWidth(ctx.width);
 
-    GAME = new Game(LANES);
+    GAME = new Game();
 
     startRendering();
 

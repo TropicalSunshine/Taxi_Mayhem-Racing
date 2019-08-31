@@ -12,7 +12,7 @@ export const connect = function()
     console.log("joining room");
 
     socket.emit("join room client", {
-        ID: localStorage.gameID
+        ID: sessionStorage.gameID
     })
 
     console.log("connected");
@@ -21,13 +21,13 @@ export const connect = function()
 export const startGame = function()
 {
     socket.emit("start game",  {
-        ID: localStorage.gameID
+        ID: sessionStorage.gameID
     })
 }
 
 export const restartGame = function()
 {
     socket.emit("restart game", {
-        ID:localStorage.gameID
+        ID:sessionStorage.gameID
     })
-}
+};

@@ -7,14 +7,21 @@ export default function RoadObjectSpawner(side)
     var canvasWidth = getWidth();
     this.canvasWidth = canvasWidth;
     this.canvasHeight = getHeight();
+
+    this.spawnLanes = sessionStorage.lanes;
+
     var shift = canvasWidth/11.5;
     if(side == 'l')
     {
+        this.spawnIndex = 0;
+        this.spawnCounter = 1;
         var center = canvasWidth/4.45;
         this.lanes = [center -= shift, center, center += shift];
     }
     else if(side == 'r')
     {
+        this.spawnIndex = this.spawnLanes.length;
+        this.spawnCounter = -1;
         var center = canvasWidth/1.38;
         this.lanes = [center -= shift, center, center += shift];
     }
@@ -25,6 +32,7 @@ export default function RoadObjectSpawner(side)
 }
 
 RoadObjectSpawner.prototype = {
+    spawnCounter: 0,
     _action: null,
     _frequency: 100,
     _frequencyCounter: 0,
@@ -38,6 +46,8 @@ RoadObjectSpawner.prototype = {
     playerCords: null,
     isCollision: false,
     isSpawn: false,
+    spawnIndex: 0,
+    spawnLanes: [],
     render: function()
     {
         var that = this;
@@ -76,7 +86,16 @@ RoadObjectSpawner.prototype = {
         var that = this;
 
         var object = new that.roadObjects[Math.floor(Math.random() * that.roadObjects.length)];
-        object.x = that.lanes[Math.floor(Math.random() * that.lanes.length)];
+        object.x = that.lanes[that.spawnLanes[that.spawnIndex]];
+        if(that.side == 'l' && that.spawnIndex == that.spawnLanes.length)
+        {
+            that.spawnIndex = 0;
+        }
+        else if(that.side == 'r' && that.spawnIndex == 0)
+        {
+            that.spawnIndex = that.spawnLanes.length;
+        }
+        that.spawnIndex += that.spawnCounter;
 
         this.currentObstacles.push(object);
 

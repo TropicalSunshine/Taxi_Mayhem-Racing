@@ -11,7 +11,7 @@ import "./main.css";
 var restartButton = document.getElementsByClassName("restart_button")[0];
 
 
-export default function Game(lanes)
+export default function Game()
 {
     var that = this;
     this._canvas = getCanvas();

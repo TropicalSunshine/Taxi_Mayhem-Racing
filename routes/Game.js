@@ -28,9 +28,14 @@ module.exports.controllerIO = function(io)
         //starting the game through client
         socket.on("start game", function(data) {
             console.log("start game");
-            socket.to("room-" + gameID).emit("start game", {
+            socket.to("room-" + data.gameID).emit("start game", {
                 data: null
             })
+        })
+
+        socket.on("join room client", function(data){
+            console.log("joining room from client " + data.ID);
+            socket.join("room-" + data.ID);
         })
 
 
@@ -39,6 +44,8 @@ module.exports.controllerIO = function(io)
         socket.on("join room mobile", function(data){
             console.log("joining room mobile");
             console.log(data);
+            var gameID = data.ID;
+            console.log(GAMESESSIONS);
             if(GAMESESSIONS[gameID] != undefined)
             {
                 var playerID = 0;
@@ -58,7 +65,7 @@ module.exports.controllerIO = function(io)
                 socket.to("room-" + gameID).emit("player join", {
                     players : GAMESESSIONS[gameID].players
                 });
-                socket.emit("join room mobile", {
+                socket.to("room-" + gameID).emit("join room mobile", {
                     gameExist: true,
                     playerID: playerID
                 }); //true means the game session exists
@@ -88,11 +95,11 @@ module.exports.controllerIO = function(io)
         })
 
         socket.on("start game", function(data){
-            socket.to("room-" + gameID).broadcast.emit("start game");
+            socket.to("room-" + data.gameID).broadcast.emit("start game");
         })
 
         socket.on("restart game", function(data){
-          socket.to("room-" + gameID).broadcast.emit("restart game");  
+          socket.to("room-" + data.gameID).broadcast.emit("restart game");  
         })
     })
 
