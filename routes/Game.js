@@ -42,41 +42,19 @@ module.exports.controllerIO = function(io)
         //MOBILE socket cmds
         //listening for sockets to join rooms
         socket.on("join room mobile", function(data){
-            console.log("joining room mobile");
-            console.log(data);
             var gameID = data.ID;
-            console.log(GAMESESSIONS);
+
             if(GAMESESSIONS[gameID] != undefined)
             {
-                var playerID = 0;
-
-                if(GAMESESSIONS[gameID].players.includes("player-1"))
-                {
-                    playerID = 2;
-                    GAMESESSIONS[gameID].players.push("player-2");
-                }
-                else
-                {
-                    playerID = 1;
-                    GAMESESSIONS[gameID].players.push("player-1");
-                }
-
+                console.log("socket room exists");
                 socket.join("room-" + gameID);
                 socket.to("room-" + gameID).emit("player join", {
                     players : GAMESESSIONS[gameID].players
                 });
-                socket.to("room-" + gameID).emit("join room mobile", {
-                    gameExist: true,
-                    playerID: playerID
-                }); //true means the game session exists
-
             }
             else
             {
-                socket.emit("join room mobile", {
-                    gameExist: false,
-                    playerID: null
-                }); //false means the game session does not exist
+                console.log("socket room does not exist");
             }
         })
 
@@ -160,6 +138,42 @@ router.get("/joinGame/:gameID", (req, res, next) => {
 
     res.header("Content-type", "application/json");
     res.status(202).json(result);
+})
+
+
+router.get("/joinGameMobile/:gameID", (req, res, next) => {
+    const gameID = req.params.gameID;
+    console.log("joining mobile client: ", gameID);
+
+    if(GAMESESSIONS[gameID] != undefined)
+    {
+        console.log("room exists");
+        var playerID = 0;
+
+        if(GAMESESSIONS[gameID].players.includes("player-1"))
+        {
+            playerID = 2;
+            GAMESESSIONS[gameID].players.push("player-2");
+        }
+        else
+        {
+            playerID = 1;
+            GAMESESSIONS[gameID].players.push("player-1");
+        }
+
+        res.status(202).json({
+            gameExist: true,
+            playerID: playerID
+        })
+    }
+    else
+    {
+        res.status(202).json({
+            gameExist: false,
+            playerID: null
+        })
+    }
+
 })
 
 module.exports.Game = router;

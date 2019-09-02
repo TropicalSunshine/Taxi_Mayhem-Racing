@@ -24,9 +24,17 @@ export default class ConnectScreen extends Component {
                     sessionStorage.gameID = gameID;
 
                     //socket emiting to join that game room
-                    this.props.socket.emit("join room mobile", {
-                        ID: gameID
+                    this.props.action(gameID);
+            
+                    /*
+                    that.socket.emit("join room client", {
+                        ID: that.gameID
                     })
+                    */
+                    //asks the user for the game code
+            
+                    //parse server to join a game game
+                    //user is put in that waiting room
                 }}>connect</button>
             </div>
         )
