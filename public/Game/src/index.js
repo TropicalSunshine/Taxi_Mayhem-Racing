@@ -13,6 +13,8 @@ let GAME = null;
 console.log("http://" + window.location.host);
 console.log(sessionStorage.gameID);
 
+let GAMEID = sessionStorage.gameID;
+
 
 window.onload = function()
 {
@@ -36,12 +38,14 @@ const start = () =>
     start_button.classList.add("hidden");
     restart_button.classList.remove("hidden");
     menu.classList.add("hidden");
+    socket.to("room-" + GAMEID).broadcast.emit("start game");
 }
 
 const reset = () => {
     restartGame();
     GAME.reset();
     menu.classList.add("hidden");
+    socket.to("room-" + GAMEID).broadcast.emit("restart game");
 }
 
 
@@ -103,10 +107,12 @@ socket.on("player 2 controls", function(data){
 })
 
 socket.on("start game", function(){
+    console.log("Starting the game");
     start();
 })
 
 socket.on("restart game", function(){
+    console.log("restarting the game");
     reset();
 })
 

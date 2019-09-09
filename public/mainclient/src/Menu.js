@@ -40,7 +40,7 @@ export default class Menu extends Component {
             })
         })
 
-        this.socket.on("start game", function(data) {
+        this.socket.on("start game client", function(data) {
             that.startGame();
         })
     }
@@ -192,9 +192,10 @@ export default class Menu extends Component {
                 <ImgButton img = {button_start} event = {() => {
                     var that = this;
                     this.startGame();
-                    this.socket.emit("start game", {
-                    ID: that.gameID
-                })
+
+                    this.socket.to("room-" + that.gameID).broadcast.emit("start game client", {
+                        ID: that.gameID
+                    })
                 }} width = "200px" height = "200px" />
                 {that._renderBackButton()}
             </div>

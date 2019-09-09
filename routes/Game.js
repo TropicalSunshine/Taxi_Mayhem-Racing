@@ -26,9 +26,10 @@ module.exports.controllerIO = function(io)
 
 
         //starting the game through client
-        socket.on("start game", function(data) {
-            console.log("start game");
-            socket.to("room-" + data.gameID).emit("start game", {
+        socket.on("start game client", function(data) {
+            console.log("starting game client");
+            console.log(data);
+            socket.to("room-" + data.ID).emit("start game client", {
                 data: null
             })
         })
@@ -72,11 +73,15 @@ module.exports.controllerIO = function(io)
             }
         })
 
+        //start from the client
         socket.on("start game", function(data){
+            console.log("start the game");
+            console.log(data);
             socket.to("room-" + data.gameID).broadcast.emit("start game");
         })
 
         socket.on("restart game", function(data){
+            console.log("restart the game");
           socket.to("room-" + data.gameID).broadcast.emit("restart game");  
         })
     })
