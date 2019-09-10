@@ -77,12 +77,12 @@ module.exports.controllerIO = function(io)
         socket.on("start game", function(data){
             console.log("start the game");
             console.log(data);
-            socket.to("room-" + data.gameID).broadcast.emit("start game");
+            socket.to("room-" + data.ID).broadcast.emit("start game");
         })
 
         socket.on("restart game", function(data){
             console.log("restart the game");
-          socket.to("room-" + data.gameID).broadcast.emit("restart game");  
+          socket.to("room-" + data.ID).broadcast.emit("restart game");  
         })
     })
 

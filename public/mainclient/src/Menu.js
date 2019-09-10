@@ -41,6 +41,7 @@ export default class Menu extends Component {
         })
 
         this.socket.on("start game client", function(data) {
+            console.log("Starting game");
             that.startGame();
         })
     }
@@ -193,7 +194,7 @@ export default class Menu extends Component {
                     var that = this;
                     this.startGame();
 
-                    this.socket.to("room-" + that.gameID).broadcast.emit("start game client", {
+                    this.socket.emit("start game client", {
                         ID: that.gameID
                     })
                 }} width = "200px" height = "200px" />

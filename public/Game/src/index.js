@@ -38,14 +38,18 @@ const start = () =>
     start_button.classList.add("hidden");
     restart_button.classList.remove("hidden");
     menu.classList.add("hidden");
-    socket.to("room-" + GAMEID).broadcast.emit("start game");
+    socket.emit("start game", {
+        ID: GAMEID
+    });
 }
 
 const reset = () => {
     restartGame();
     GAME.reset();
     menu.classList.add("hidden");
-    socket.to("room-" + GAMEID).broadcast.emit("restart game");
+    socket.emit("restart game", {
+        ID: GAMEID
+    });
 }
 
 
