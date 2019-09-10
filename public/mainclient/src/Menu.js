@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ImgButton from "./buttons/imgButton.js";
 
+import taxi_title from "./images/title.png";     
 import button_create_game from "./images/button_create_game.png";
 import button_join_game from "./images/button_join_game.png";
 import button_back from "./images/button_back.png";
@@ -185,6 +186,16 @@ export default class Menu extends Component {
 
         var that = this;
 
+        var title = !this.state.isWaitingRoom && !this.state.isJoinGame && (
+            <img style = {{
+                width: "400px",
+                height: "200px",
+                marginLeft: "auto",
+                marginRight: "auto",
+                display: "block "
+              }}src = {taxi_title}></img>
+        )
+
         var waitingRoom = this.state.isWaitingRoom && that._renderWaitingRoom();
 
         //game button for when user is in waiting room
@@ -227,6 +238,7 @@ export default class Menu extends Component {
             //add a input box
             return (
                 <div id = "Menu">
+                    {title}
                     <div className = "menu-buttons">
                         <ImgButton img = {button_create_game} event = {that.CreateGame} 
                         width = "200px" height = "200px"/>
