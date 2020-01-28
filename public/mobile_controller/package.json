@@ -1,6 +1,7 @@
 {
   "name": "mobile_controller",
   "version": "0.1.0",
+  "homepage": "/public/mobile_controller/build",
   "private": true,
   "dependencies": {
     "react": "^16.8.6",

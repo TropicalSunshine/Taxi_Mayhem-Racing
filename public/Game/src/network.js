@@ -20,14 +20,18 @@ export const connect = function()
 
 export const startGame = function()
 {
+    /*
     socket.emit("start game",  {
         ID: sessionStorage.gameID
     })
+    */
 }
 
 export const restartGame = function()
 {
+    /*
     socket.emit("restart game", {
         ID:sessionStorage.gameID
     })
+    */
 };
